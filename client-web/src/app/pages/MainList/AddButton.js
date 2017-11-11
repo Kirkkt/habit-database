@@ -1,26 +1,24 @@
 import React from "react"
-import { withStyles } from "material-ui/styles"
 import Button from "material-ui/Button"
+import styled from "styled-components"
 import AddIcon from "material-ui-icons/Add"
 
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-})
+const Wrapper = styled.div`
+  width: 100%;
+  text-align: center;
+`
 
-const AddButton = ({ classes }) => (
-  <div>
+const AddButton = ({ onClick }) => (
+  <Wrapper>
     <Button
       fab
       color="primary"
       aria-label="add"
-      className={classes.button}
-      onClick={() => alert('yo')}
+      onClick={onClick}
     >
       <AddIcon />
     </Button>
-  </div>
+  </Wrapper>
 )
 
-export default withStyles(styles)(AddButton)
+export default AddButton

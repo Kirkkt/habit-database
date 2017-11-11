@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import MainList from './pages/MainList'
 import "./App.css"
 
