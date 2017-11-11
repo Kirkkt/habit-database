@@ -2,7 +2,7 @@ import store from "../store"
 
 export const fetchHabits = () => {
   store.dispatch(dispatch => {
-    fetch("http://localhost:2379/getHabits", {
+    fetch("http://localhost:2379/fetchHabits", {
       method: 'POST',
     })
     .then(response => response.json())
@@ -13,7 +13,6 @@ export const fetchHabits = () => {
           payload: responseJson.habits,
         })
       }
-      console.log(responseJson.habits)
     })
     .catch(({ message }) => console.log(message))
   })

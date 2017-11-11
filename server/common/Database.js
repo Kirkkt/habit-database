@@ -133,7 +133,7 @@ const Database = {
 
 // Database.allDocsInCollectionToString("habits", console.log);
 
-Database.resetCollectionPromise("habits")
+// Database.resetCollectionPromise("habits")
 
 Database.initialize()
 
