@@ -12,6 +12,7 @@ const handle = (requestData, callback) => {
       dbToClose.close();
       callback({
         habits: docs.map(habit => {
+          // TODO: ramda or lodashFP?
           delete habit["_id"]
           return habit
         }),
