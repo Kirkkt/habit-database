@@ -7,14 +7,16 @@ import Dialog, {
   DialogTitle,
 } from "material-ui/Dialog"
 import { compose, withState, withHandlers } from "recompose"
+import { connect } from "react-redux"
 import styled from "styled-components"
+import { createHabit } from "../../../actions/habits"
 
 const WidthHolder = styled.div`
   width: 400px;
 `
 
-const CreateDialog = ({isOpened, name, updateName, onCreate, onCancel}) => (
-  <Dialog open={isOpened} onRequestClose={onCancel}>
+const CreateDialog = ({isOpened, updateName, onCreateClick, onClose}) => (
+  <Dialog open={isOpened} onRequestClose={onClose}>
     <WidthHolder />
     <DialogTitle>Create a new habit</DialogTitle>
     <DialogContent>
@@ -29,10 +31,10 @@ const CreateDialog = ({isOpened, name, updateName, onCreate, onCancel}) => (
       />
     </DialogContent>
     <DialogActions>
-      <Button onClick={onCancel}>
+      <Button onClick={onClose}>
         Cancel
       </Button>
-      <Button onClick={onCreate} color="primary">
+      <Button onClick={onCreateClick} color="primary">
         Create
       </Button>
     </DialogActions>
@@ -41,12 +43,15 @@ const CreateDialog = ({isOpened, name, updateName, onCreate, onCancel}) => (
 
 export default compose(
   withState("name", "updateName", ""),
+  connect(
+    null,
+    () => ({
+      createHabit,
+    })
+  ),
   withHandlers({
-    onCreate: ({ name, onClose }) => () => {
-      console.log(name)
-      onClose()
-    },
-    onCancel: ({ onClose }) => () => {
+    onCreateClick: ({ name, onClose }) => () => {
+      createHabit(name)
       onClose()
     },
   })
