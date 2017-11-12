@@ -1,44 +1,48 @@
 import store from "../store"
+import { sleepPromise } from "../common/Utils"
+import { MOCK_API_LATENCY } from "../common/Config"
 
 export const fetchHabits = () => {
   store.dispatch(dispatch => {
-    fetch("http://localhost:2379/fetchHabits", {
-      method: 'POST',
-    })
-    .then(response => response.json())
-    .then(responseJson => {
-      if (responseJson.success) {
-        dispatch({
-          type: "FETCH_HABITS",
-          payload: responseJson.habits,
-        })
-      }
-    })
-    .catch(({ message }) => console.log(message))
+    sleepPromise(MOCK_API_LATENCY)
+      .then(() => fetch("http://localhost:2379/fetchHabits", {
+        method: 'POST',
+      }))
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success) {
+          dispatch({
+            type: "FETCH_HABITS",
+            payload: responseJson.habits,
+          })
+        }
+      })
+      .catch(({ message }) => console.log(message))
   })
 }
 
 export const createHabit = (name) => {
   store.dispatch(dispatch => {
-    fetch("http://localhost:2379/createHabit", {
-      method: 'POST',
-      // TODO: escape special charactors like ? and &
-      body: "name=" + name
-    })
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log("responseJson", responseJson)
-      if (responseJson.success) {
-        dispatch({
-          type: "CREATE_HABIT",
-          payload: {
-            id: responseJson.id,
-            name: name,
-          },
-        })
-      }
-    })
-    .catch(({message}) => console.log(message))
+    sleepPromise(MOCK_API_LATENCY)
+      .then(() => fetch("http://localhost:2379/createHabit", {
+        method: 'POST',
+        // TODO: escape special charactors like ? and &
+        body: "name=" + name
+      }))
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log("responseJson", responseJson)
+        if (responseJson.success) {
+          dispatch({
+            type: "CREATE_HABIT",
+            payload: {
+              id: responseJson.id,
+              name: name,
+            },
+          })
+        }
+      })
+      .catch(({message}) => console.log(message))
   })
 }
 

@@ -1,15 +1,14 @@
 import React from "react"
 import { compose, lifecycle } from "recompose"
 import { connect } from "react-redux"
-import { fetchHabits } from "../../../actions/habits"
+import { fetchHabits } from "../../../../actions/habits"
+import HabitItem from "./HabitItem"
 
 const HabitList = ({ habits }) => (
   <div>
     {
-      habits.map(({ name, id }) => (
-        <div key={id}>
-          {name}
-        </div>
+      habits.map((habit) => (
+        <HabitItem key={habit.id} habit={habit} />
       ))
     }
   </div>
