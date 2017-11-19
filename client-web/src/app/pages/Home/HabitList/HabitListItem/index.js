@@ -1,9 +1,12 @@
 import React from "react"
 import { compose, withState, mapProps } from "recompose"
+import { connect } from "react-redux"
 import styled, { css } from "styled-components"
+import Checkbox from "material-ui/Checkbox"
 import DeleteDialog from "./DeleteDialog"
 
 const Wrapper = styled.div`
+  box-sizing: border-box;
   width: 100%;
   border: 1px solid #eee;
   padding: 10px;
@@ -15,7 +18,7 @@ const Wrapper = styled.div`
 
 const NameWrapper = styled.div`
   display: flex-box;
-  width: calc(100% - 40px);
+  width: 100%;
 `
 
 const ActionWrapper = styled.div`
@@ -31,11 +34,19 @@ const HabitItem = ({
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
+  doneToday,
+  setDoneToday,
 }) => (
   <Wrapper isOddItem={isOddItem}>
+    <ActionWrapper>
+      <Checkbox
+        checked={doneToday}
+        onChange={setDoneToday}
+      />
+    </ActionWrapper>
     <NameWrapper>{name}</NameWrapper>
     <ActionWrapper>
-      <button onClick={toggleDeleteDialogOpened}>-</button>
+      {true && <button onClick={toggleDeleteDialogOpened}>-</button>}
     </ActionWrapper>
     <DeleteDialog
       name={name}
