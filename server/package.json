@@ -16,6 +16,6 @@
   },
   "scripts": {
     "start": "babel-node server.js",
-    "mongo": "mongod --dbpath mongodb --port 27193"
+    "mongo": "mkdir mongodb 2> /dev/null; mongod --dbpath mongodb --port 27193"
   }
 }

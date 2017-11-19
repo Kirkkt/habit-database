@@ -28,6 +28,12 @@ const CreateDialog = ({isOpened, updateName, onCreateClick, onClose}) => (
         type="text"
         fullWidth
         onChange={event => updateName(event.target.value)}
+        onKeyPress={event => {
+          if (event.key === 'Enter') {
+            onCreateClick();
+            event.preventDefault();
+          }
+        }}
       />
     </DialogContent>
     <DialogActions>
