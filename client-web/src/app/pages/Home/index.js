@@ -4,6 +4,7 @@ import AddButton from "./AddButton"
 import CreateDialog from "./CreateDialog"
 import HabitList from "./HabitList"
 
+// TODO: fix list width > 100%
 const Home = ({ createDialogOpened, toggleCreateDialogOpened }) => (
   <div>
     <HabitList />
