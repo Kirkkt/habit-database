@@ -3,6 +3,7 @@ import { compose, withState, mapProps } from "recompose"
 import { connect } from "react-redux"
 import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
+import { shouldEnableQuickDelete } from "../../../../../common/Config"
 import DeleteDialog from "./DeleteDialog"
 
 const Wrapper = styled.div`
@@ -17,24 +18,24 @@ const Wrapper = styled.div`
 `
 
 const NameWrapper = styled.div`
-  display: flex-box;
   width: 100%;
+  margin: auto;
 `
 
 const ActionWrapper = styled.div`
-  display: flex-box;
   width: 40px;
+  margin: auto 10px;
 `
 
 const HabitItem = ({
   habit: {
     name,
     id,
+    doneToday,
   },
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
-  doneToday,
   setDoneToday,
 }) => (
   <Wrapper isOddItem={isOddItem}>
@@ -45,9 +46,9 @@ const HabitItem = ({
       />
     </ActionWrapper>
     <NameWrapper>{name}</NameWrapper>
-    <ActionWrapper>
-      {true && <button onClick={toggleDeleteDialogOpened}>-</button>}
-    </ActionWrapper>
+    { shouldEnableQuickDelete() && <ActionWrapper>
+      <button onClick={toggleDeleteDialogOpened}>-</button>
+    </ActionWrapper> }
     <DeleteDialog
       name={name}
       id={id}
