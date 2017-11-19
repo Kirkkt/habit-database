@@ -4,7 +4,7 @@ import AddButton from "./AddButton"
 import CreateDialog from "./CreateDialog"
 import HabitList from "./HabitList"
 
-const MainList = ({ createDialogOpened, toggleCreateDialogOpened }) => (
+const Home = ({ createDialogOpened, toggleCreateDialogOpened }) => (
   <div>
     <HabitList />
     <AddButton onClick={toggleCreateDialogOpened} />
@@ -18,4 +18,4 @@ export default compose(
     toggleCreateDialogOpened: () => setCreateDialogOpened(value => !value),
     ...rest,
   }))
-)(MainList)
+)(Home)

@@ -21,7 +21,7 @@ export const fetchHabits = () => {
   })
 }
 
-export const createHabit = (name) => {
+export const createHabit = name => {
   store.dispatch(dispatch => {
     sleepPromise(MOCK_API_LATENCY)
       .then(() => fetch("http://localhost:2379/createHabit", {
@@ -72,29 +72,22 @@ export const createHabit = (name) => {
 //   })
 // }
 
-// const deleteHabit = ({vin}) => {
-//   store.dispatch(dispatch => {
-//     fetch("http://localhost:2379/deleteHabit", {
-//       method: 'POST',
-//       body: "vin=" + vin
-//     })
-//     .then(response => response.json())
-//     .then(responseJson => {
-//       console.log("responseJson", responseJson)
-//       if (responseJson.success) {
-//         dispatch({
-//           type: "DELETE_HABIT",
-//           payload: vin,
-//         })
-//       }
-//     })
-//     .catch(({message}) => console.log(message))
-//   })
-// }
-
-// export {
-//   fetchHabits,
-//   addHabit,
-//   updateHabit,
-//   deleteHabit,
-// }
+const deleteHabit = id => {
+  store.dispatch(dispatch => {
+    fetch("http://localhost:2379/deleteHabit", {
+      method: 'POST',
+      body: "id=" + id
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log("responseJson", responseJson)
+      if (responseJson.success) {
+        dispatch({
+          type: "DELETE_HABIT",
+          payload: id,
+        })
+      }
+    })
+    .catch(({message}) => console.log(message))
+  })
+}

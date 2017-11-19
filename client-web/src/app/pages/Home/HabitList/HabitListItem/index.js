@@ -1,6 +1,8 @@
 import React from "react"
-import { compose } from "recompose"
+import { compose, withState, withHandlers } from "recompose"
 import styled, { css } from "styled-components"
+import { connect } from "react-redux"
+import { deleteHabit } from "../../../../../actions/habits"
 
 const Wrapper = styled.div`
   width: 100%;
