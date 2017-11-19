@@ -1,4 +1,52 @@
 import React from "react"
 import { connect } from "react-redux"
-import { compose, withState, withHandlers } from "recompose"
+import { compose, withHandlers } from "recompose"
 import { deleteHabit } from "../../../../../actions/habits"
+import Button from "material-ui/Button"
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "material-ui/Dialog"
+import styled from "styled-components"
+
+const WidthHolder = styled.div`
+  width: 400px;
+`
+
+const Name = styled.span`
+  color: teal;
+`
+
+const DeleteDialog = ({isOpened, onDelete, onClose, name, id}) => (
+  <Dialog open={isOpened} onRequestClose={onClose}>
+    <WidthHolder />
+    <DialogTitle>Delete a habit</DialogTitle>
+    <DialogContent>
+      <p>Are you sure you want to delete habit <Name>{name}</Name>?</p>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>
+        Cancel
+      </Button>
+      <Button onClick={onDelete} color="primary">
+        Delete
+      </Button>
+    </DialogActions>
+  </Dialog>
+)
+
+export default compose(
+  connect(
+    null,
+    () => ({
+      deleteHabit,
+    })
+  ),
+  withHandlers({
+    onDelete: ({ id, onClose }) => () => {
+      deleteHabit(id)
+      onClose()
+    },
+  })
+)(DeleteDialog)

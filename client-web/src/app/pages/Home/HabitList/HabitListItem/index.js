@@ -1,8 +1,7 @@
 import React from "react"
-import { compose, withState, withHandlers } from "recompose"
+import { compose, withState, mapProps } from "recompose"
 import styled, { css } from "styled-components"
-import { connect } from "react-redux"
-import { deleteHabit } from "../../../../../actions/habits"
+import DeleteDialog from "./DeleteDialog"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,14 +21,34 @@ const NameWrapper = styled.div`
 const ActionWrapper = styled.div`
   display: flex-box;
   width: 40px;
-  background-color: blue;
 `
 
-const HabitItem = ({ habit: { name }, isOddItem }) => (
+const HabitItem = ({
+  habit: {
+    name,
+    id,
+  },
+  isOddItem,
+  deleteDialogOpened,
+  toggleDeleteDialogOpened,
+}) => (
   <Wrapper isOddItem={isOddItem}>
     <NameWrapper>{name}</NameWrapper>
-    <ActionWrapper></ActionWrapper>
+    <ActionWrapper>
+      <button onClick={toggleDeleteDialogOpened}>-</button>
+    </ActionWrapper>
+    <DeleteDialog
+      name={name}
+      id={id}
+      isOpened={deleteDialogOpened}
+      onClose={toggleDeleteDialogOpened}
+    />
   </Wrapper>
 )
 export default compose(
+  withState("deleteDialogOpened", "setDeleteDialogOpened", false),
+  mapProps(({ setDeleteDialogOpened, ...rest }) => ({
+    toggleDeleteDialogOpened: () => setDeleteDialogOpened(value => !value),
+    ...rest,
+  }))
 )(HabitItem)

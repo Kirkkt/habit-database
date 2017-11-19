@@ -72,7 +72,7 @@ export const createHabit = name => {
 //   })
 // }
 
-const deleteHabit = id => {
+export const deleteHabit = id => {
   store.dispatch(dispatch => {
     fetch("http://localhost:2379/deleteHabit", {
       method: 'POST',
@@ -80,7 +80,6 @@ const deleteHabit = id => {
     })
     .then(response => response.json())
     .then(responseJson => {
-      console.log("responseJson", responseJson)
       if (responseJson.success) {
         dispatch({
           type: "DELETE_HABIT",

@@ -10,6 +10,9 @@ export default (state = [], { type, payload }) => {
         payload,
       ]
     }
+    case "DELETE_HABIT": {
+      return newState.filter(habit => habit.id !== payload)
+    }
     default: {
       return newState
     }
