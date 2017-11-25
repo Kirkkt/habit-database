@@ -2,19 +2,19 @@ import React from "react"
 import { compose, lifecycle } from "recompose"
 import { connect } from "react-redux"
 import { fetchHabits } from "../../../../actions/habits"
-import { fetchRecords } from "../../../../actions/records"
+import { fetchTodayDoneForAll } from "../../../../actions/todayDones"
 import HabitListItem from "./HabitListItem"
 
-const HabitList = ({ habits, records }) => (
+const HabitList = ({ habits, todayDones }) => (
   <div>
     {
       habits.map((habit, index) => (
         <HabitListItem
           key={habit.id}
           habit={habit}
-          timestamps={(records && records[habit.id]) || []}
+          todayDone={todayDones.some(id => +id === +habit.id) }
           isOddItem={index % 2 === 0}
-          />
+        />
       ))
     }
   </div>
@@ -22,13 +22,13 @@ const HabitList = ({ habits, records }) => (
 
 export default compose(
   connect(
-    ({ habits, records }) => ({ habits, records }),
-    () => ({ fetchHabits, fetchRecords }),
+    ({ habits, todayDones }) => ({ habits, todayDones }),
+    () => ({ fetchHabits, fetchTodayDoneForAll }),
   ),
   lifecycle({
     componentWillMount() {
       this.props.fetchHabits()
-      this.props.fetchRecords()
+      this.props.fetchTodayDoneForAll()
     },
   }),
 )(HabitList)

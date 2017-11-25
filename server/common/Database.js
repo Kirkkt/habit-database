@@ -133,6 +133,7 @@ const Database = {
 };
 
 // Database.allDocsInCollectionToString("habits", console.log);
+// Database.allDocsInCollectionToString("records", console.log);
 
 // Database.resetCollectionPromise("habits")
 

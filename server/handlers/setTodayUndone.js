@@ -12,24 +12,30 @@ const handle = ({ id }, callback) => {
     }).then(docs => {
       const matches = docs.filter(({ timestamp }) => isToday(timestamp))
       if (matches.length === 0) {
-        return Database.insertDocPromise({
+        dbToClose.close()
+        callback({
+          success: true,
+          id,
+        })
+        return Promise.resolve(dbToClose)
+      } else {
+        const timestamp = matches[0].timestamp
+        callback({
+          success: true,
+          id,
+          timestamp,
+        })
+        return Database.deleteManyPromise({
           db: dbToClose,
           collection: "records",
-          doc: {
+          pattern: {
             id,
-            timestamp: currentTimestamp,
-          }
+            timestamp,
+          },
         })
-      } else {
-        return Promise.resolve({ timestamp: matches[0].timestamp, db: dbToClose })
       }
-    }).then(({ timestamp, db }) => {
+    }).then(({ db }) => {
       db.close()
-      callback({
-        success: true,
-        id,
-        timestamp: timestamp || currentTimestamp,
-      })
     })
     .catch(err => callback({
       error: {
@@ -39,4 +45,4 @@ const handle = ({ id }, callback) => {
     }))
 }
 
-export default handlerFactory(handle, "/setDone", ["id"])
+export default handlerFactory(handle, "/setTodayUndone", ["id"])

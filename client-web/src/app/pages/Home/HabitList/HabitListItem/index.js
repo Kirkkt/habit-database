@@ -5,7 +5,7 @@ import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
 import { shouldEnableQuickDelete } from "../../../../../common/Config"
 import DeleteDialog from "./DeleteDialog"
-import { setDone, setUndone } from "../../../../../actions/records"
+import { setTodayDone, setTodayUndone } from "../../../../../actions/todayDones"
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -28,19 +28,12 @@ const ActionWrapper = styled.div`
   margin: auto 10px;
 `
 
-const getDoneToday = timestamps => {
-  const todayDateString = (new Date()).toDateString()
-  return timestamps.some(
-    timestamp => (new Date(timestamp)).toDateString() === todayDateString
-  )
-}
-
 const HabitItem = ({
   habit: {
     name,
     id,
   },
-  timestamps,
+  todayDone,
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
@@ -49,7 +42,7 @@ const HabitItem = ({
   <Wrapper isOddItem={isOddItem}>
     <ActionWrapper>
       <Checkbox
-        checked={getDoneToday(timestamps)}
+        checked={todayDone}
         onChange={toggleDoneToday}
       />
     </ActionWrapper>
@@ -72,19 +65,19 @@ export default compose(
     ...rest,
   })),
   withHandlers({
-    toggleDoneToday: ({ habit: { id }, timestamps }) => () => {
-      if (getDoneToday(timestamps)) {
-        setUndone(id)
+    toggleDoneToday: ({ habit: { id }, todayDone }) => () => {
+      if (todayDone) {
+        setTodayUndone(id)
       } else {
-        setDone(id)
+        setTodayDone(id)
       }
     }
   }),
   connect(
     null,
     () => ({
-      setDone,
-      setUndone,
+      setTodayDone,
+      setTodayUndone,
     })
   )
 )(HabitItem)

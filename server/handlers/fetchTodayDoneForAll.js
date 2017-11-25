@@ -1,5 +1,6 @@
 import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
+import { isToday } from "../common/Utils"
 
 const handle = (requestData, callback) => {
   let dbToClose
@@ -11,11 +12,15 @@ const handle = (requestData, callback) => {
     .then(docs => {
       dbToClose.close();
       callback({
-        records: docs.map(record => {
-          // TODO: ramda or lodashFP?
-          delete record["_id"]
-          return record
-        }),
+        todayDones: docs.reduce(
+          (result, { id, timestamp }) => {
+            if (isToday(timestamp)) {
+              return result.concat(id)
+            }
+            return result
+          },
+          []
+        ),
         success: true,
       })
     })
@@ -27,4 +32,4 @@ const handle = (requestData, callback) => {
     }))
 }
 
-export default handlerFactory(handle, "/fetchRecords", [])
+export default handlerFactory(handle, "/fetchTodayDoneForAll", [])
