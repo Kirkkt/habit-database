@@ -2,16 +2,19 @@ export default (state = [], { type, payload }) => {
   const newState = [...state]
   switch (type) {
     case "FETCH_HABITS": {
-      return payload
+      const habits = payload
+      return habits
     }
     case "CREATE_HABIT": {
+      const habit = payload
       return [
         ...newState,
-        payload,
+        habit,
       ]
     }
     case "DELETE_HABIT": {
-      return newState.filter(habit => habit.id !== payload)
+      const id = payload
+      return newState.filter(habit => habit.id !== id)
     }
     default: {
       return newState

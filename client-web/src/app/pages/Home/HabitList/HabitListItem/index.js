@@ -1,10 +1,11 @@
 import React from "react"
-import { compose, withState, mapProps } from "recompose"
+import { compose, withState, withHandlers, mapProps } from "recompose"
 import { connect } from "react-redux"
 import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
 import { shouldEnableQuickDelete } from "../../../../../common/Config"
 import DeleteDialog from "./DeleteDialog"
+import { setDone, setUndone } from "../../../../../actions/records"
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -27,22 +28,29 @@ const ActionWrapper = styled.div`
   margin: auto 10px;
 `
 
+const getDoneToday = timestamps => {
+  const todayDateString = (new Date()).toDateString()
+  return timestamps.some(
+    timestamp => (new Date(timestamp)).toDateString() === todayDateString
+  )
+}
+
 const HabitItem = ({
   habit: {
     name,
     id,
-    doneToday,
   },
+  timestamps,
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
-  setDoneToday,
+  toggleDoneToday,
 }) => (
   <Wrapper isOddItem={isOddItem}>
     <ActionWrapper>
       <Checkbox
-        checked={doneToday}
-        onChange={setDoneToday}
+        checked={getDoneToday(timestamps)}
+        onChange={toggleDoneToday}
       />
     </ActionWrapper>
     <NameWrapper>{name}</NameWrapper>
@@ -62,5 +70,21 @@ export default compose(
   mapProps(({ setDeleteDialogOpened, ...rest }) => ({
     toggleDeleteDialogOpened: () => setDeleteDialogOpened(value => !value),
     ...rest,
-  }))
+  })),
+  withHandlers({
+    toggleDoneToday: ({ habit: { id }, timestamps }) => () => {
+      if (getDoneToday(timestamps)) {
+        setUndone(id)
+      } else {
+        setDone(id)
+      }
+    }
+  }),
+  connect(
+    null,
+    () => ({
+      setDone,
+      setUndone,
+    })
+  )
 )(HabitItem)
