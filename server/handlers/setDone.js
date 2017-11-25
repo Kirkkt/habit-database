@@ -1,32 +1,34 @@
 import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
+import { isToday } from "../common/Utils"
 
 const handle = ({ id }, callback) => {
   let dbToClose;
-  const timestamp = Date.now()
+  const currentTimestamp = Date.now()
   Database.getMongoClientPromise()
     .then(({db}) => {
       dbToClose = db
       return db.collection("records").find({ id }).toArray()
     }).then(docs => {
-      if (docs.length === 0) {
+      const matches = docs.filter(({ timestamp }) => isToday(timestamp))
+      if (matches.length === 0) {
         return Database.insertDocPromise({
           db: dbToClose,
           collection: "records",
           doc: {
             id,
-            timestamp,
+            timestamp: currentTimestamp,
           }
         })
       } else {
-        return Promise.resolve({ docs, db: dbToClose })
+        return Promise.resolve({ timestamp: matches[0].timestamp, db: dbToClose })
       }
-    }).then(({ docs, db }) => {
+    }).then(({ timestamp, db }) => {
       db.close()
       callback({
         success: true,
         id,
-        timestamp: docs ? docs[0].timestamp : timestamp,
+        timestamp: timestamp || currentTimestamp,
       })
     })
     .catch(err => callback({

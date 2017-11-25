@@ -126,6 +126,7 @@ const Database = {
 
   initialize: () => Database.getMongoClientPromise()
     .then(({db}) => Database.createUniqueIndexPromise({db, collection: 'habits', index: 'id'}))
+    .then(({db}) => Database.createUniqueIndexPromise({db, collection: 'records', index: 'timestamp'}))
     .then(({db}) => db.close())
     .catch(Database.printErrorAndQuit),
 
