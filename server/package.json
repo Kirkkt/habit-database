@@ -12,10 +12,12 @@
     "express": "^4.15.3",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.3",
+    "npm-run-all": "^4.1.2",
     "power-assert": "^1.4.4"
   },
   "scripts": {
-    "start": "babel-node server.js",
-    "mongo": "mkdir mongodb 2> /dev/null; mongod --dbpath mongodb --port 27193"
+    "node": "babel-node server.js",
+    "mongo": "mkdir mongodb 2> /dev/null; mongod --dbpath mongodb --port 27193",
+    "start": "npm-run-all --parallel mongo node"
   }
 }
