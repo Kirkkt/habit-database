@@ -1,8 +1,8 @@
 import React from "react"
 import { compose, lifecycle } from "recompose"
 import { connect } from "react-redux"
-import { fetchHabits } from "../../../../actions/habits"
-import { fetchTodayDoneForAll } from "../../../../actions/todayDones"
+import { fetchHabits } from "actions/habits"
+import { fetchTodayDoneForAll } from "actions/todayDones"
 import HabitListItem from "./HabitListItem"
 
 const HabitList = ({ habits, todayDones }) => (

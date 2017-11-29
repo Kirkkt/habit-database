@@ -1,6 +1,6 @@
-import store from "../store"
-import { sleepPromise } from "../common/Utils"
-import { MOCK_API_LATENCY } from "../common/Config"
+import store from "store"
+import { sleepPromise } from "common/Utils"
+import { MOCK_API_LATENCY } from "common/Config"
 
 // TODO: set up lint
 // TODO: pagination

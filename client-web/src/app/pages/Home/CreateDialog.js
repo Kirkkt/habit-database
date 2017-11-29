@@ -1,4 +1,7 @@
 import React from "react"
+import { compose, withState, withHandlers } from "recompose"
+import { connect } from "react-redux"
+import styled from "styled-components"
 import TextField from "material-ui/TextField"
 import Button from "material-ui/Button"
 import Dialog, {
@@ -6,10 +9,8 @@ import Dialog, {
   DialogContent,
   DialogTitle,
 } from "material-ui/Dialog"
-import { compose, withState, withHandlers } from "recompose"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import { createHabit } from "../../../actions/habits"
+
+import { createHabit } from "actions/habits"
 
 const WidthHolder = styled.div`
   width: 400px;

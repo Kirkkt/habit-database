@@ -1,7 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
 import { compose, withHandlers } from "recompose"
-import { deleteHabit } from "../../../../../actions/habits"
 import Button from "material-ui/Button"
 import Dialog, {
   DialogActions,
@@ -9,6 +8,8 @@ import Dialog, {
   DialogTitle,
 } from "material-ui/Dialog"
 import styled from "styled-components"
+
+import { deleteHabit } from "actions/habits"
 
 const WidthHolder = styled.div`
   width: 400px;

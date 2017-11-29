@@ -3,9 +3,11 @@ import { compose, withState, withHandlers, mapProps } from "recompose"
 import { connect } from "react-redux"
 import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
-import { shouldEnableQuickDelete } from "../../../../../common/Config"
+
+import { shouldEnableQuickDelete } from "common/Config"
+import { setTodayDone, setTodayUndone } from "actions/todayDones"
+
 import DeleteDialog from "./DeleteDialog"
-import { setTodayDone, setTodayUndone } from "../../../../../actions/todayDones"
 
 const Wrapper = styled.div`
   box-sizing: border-box;
