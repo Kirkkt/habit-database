@@ -22,49 +22,45 @@ export const fetchTodayDoneForAll = () => {
 }
 
 export const setTodayDone = id => {
-  store.dispatch(dispatch => {
-    sleepPromise(MOCK_API_LATENCY)
-      .then(() => fetch("http://localhost:2379/setTodayDone", {
-        method: "POST",
-        body: "id=" + id,
-      }))
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log("responseJson", responseJson)
-        if (responseJson.success) {
-          dispatch({
-            type: "SET_TODAY_DONE",
-            payload: {
-              id: responseJson.id,
-              timestamp: responseJson.timestamp,
-            },
-          })
-        }
-      })
-      .catch(({message}) => console.log(message))
+  store.dispatch({
+    type: "SET_TODAY_DONE",
+    payload: {
+      id: id,
+      timestamp: Date.now(),
+    },
   })
+  sleepPromise(MOCK_API_LATENCY)
+    .then(() => fetch("http://localhost:2379/setTodayDone", {
+      method: "POST",
+      body: "id=" + id,
+    }))
+    .then(response => response.json())
+    .then(responseJson => {
+      if (!responseJson.success) {
+        // TODO: error handling
+      }
+    })
+    .catch(({message}) => console.log(message))
 }
 
 export const setTodayUndone = id => {
-  store.dispatch(dispatch => {
-    sleepPromise(MOCK_API_LATENCY)
-      .then(() => fetch("http://localhost:2379/setTodayUndone", {
-        method: "POST",
-        body: "id=" + id,
-      }))
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log("responseJson", responseJson)
-        if (responseJson.success) {
-          dispatch({
-            type: "SET_TODAY_UNDONE",
-            payload: {
-              id: responseJson.id,
-              timestamp: responseJson.timestamp,
-            },
-          })
-        }
-      })
-      .catch(({message}) => console.log(message))
+  store.dispatch({
+    type: "SET_TODAY_UNDONE",
+    payload: {
+      id: id,
+      timestamp: Date.now(),
+    },
   })
+  sleepPromise(MOCK_API_LATENCY)
+    .then(() => fetch("http://localhost:2379/setTodayUndone", {
+      method: "POST",
+      body: "id=" + id,
+    }))
+    .then(response => response.json())
+    .then(responseJson => {
+      if (!responseJson.success) {
+        // TODO: error handling
+      }
+    })
+    .catch(({message}) => console.log(message))
 }
