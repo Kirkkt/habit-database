@@ -8,6 +8,8 @@ import fetchTodayDoneForAll from "./handlers/fetchTodayDoneForAll"
 import setTodayDone from "./handlers/setTodayDone"
 import setTodayUndone from "./handlers/setTodayUndone"
 
+import fetchHabitPreviewData from "./handlers/fetchHabitPreviewData"
+
 const app = express()
 
 app.post("/fetchHabits", fetchHabits)
@@ -17,6 +19,8 @@ app.post("/deleteHabit", deleteHabit)
 app.post("/fetchTodayDoneForAll", fetchTodayDoneForAll)
 app.post("/setTodayDone", setTodayDone)
 app.post("/setTodayUndone", setTodayUndone)
+
+app.post("/fetchHabitPreviewData", fetchHabitPreviewData)
 
 /* istanbul ignore next */
 if (!module.parent) {

@@ -1,8 +1,7 @@
 import React from "react"
 import { compose, lifecycle } from "recompose"
 import { connect } from "react-redux"
-import { fetchHabits } from "actions/habits"
-import { fetchTodayDoneForAll } from "actions/todayDones"
+import { fetchHabitPreviewData } from "actions"
 import HabitListItem from "./HabitListItem"
 
 const HabitList = ({ habits, todayDones }) => (
@@ -23,12 +22,11 @@ const HabitList = ({ habits, todayDones }) => (
 export default compose(
   connect(
     ({ habits, todayDones }) => ({ habits, todayDones }),
-    () => ({ fetchHabits, fetchTodayDoneForAll }),
+    () => ({ fetchHabitPreviewData }),
   ),
   lifecycle({
     componentWillMount() {
-      this.props.fetchHabits()
-      this.props.fetchTodayDoneForAll()
+      this.props.fetchHabitPreviewData()
     },
   }),
 )(HabitList)
