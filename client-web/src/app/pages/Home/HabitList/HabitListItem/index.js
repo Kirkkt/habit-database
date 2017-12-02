@@ -34,8 +34,11 @@ const HabitItem = ({
   habit: {
     name,
     id,
+    streak: {
+      streakType,
+      streakLength,
+    },
   },
-  todayDone,
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
@@ -44,7 +47,7 @@ const HabitItem = ({
   <Wrapper isOddItem={isOddItem}>
     <ActionWrapper>
       <Checkbox
-        checked={todayDone}
+        checked={streakType === "HIT"}
         onChange={toggleDoneToday}
       />
     </ActionWrapper>
@@ -67,8 +70,15 @@ export default compose(
     ...rest,
   })),
   withHandlers({
-    toggleDoneToday: ({ habit: { id }, todayDone }) => () => {
-      if (todayDone) {
+    toggleDoneToday: ({
+      habit: {
+        id,
+        streak: {
+          streakType,
+        },
+      },
+    }) => () => {
+      if (streakType === "HIT") {
         setTodayUndone(id)
       } else {
         setTodayDone(id)

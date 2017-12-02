@@ -53,7 +53,7 @@ export const fetchHabitPreviewData = () => {
       if (responseJson.success) {
         store.dispatch({
           type: "FETCH_HABIT_PREVIEW_DATA",
-          payload: responseJson.habitPreviewData,
+          payload: responseJson.data,
         })
       }
     })
@@ -63,10 +63,7 @@ export const fetchHabitPreviewData = () => {
 export const setTodayDone = id => {
   store.dispatch({
     type: "SET_TODAY_DONE",
-    payload: {
-      id: id,
-      timestamp: Date.now(),
-    },
+    payload: id,
   })
   sleepPromise(MOCK_API_LATENCY)
     .then(() => fetch("http://localhost:2379/setTodayDone", {

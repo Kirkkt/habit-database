@@ -1,13 +1,11 @@
 import {combineReducers} from "redux"
 
-import habits from "./habits"
-import records from "./records"
-import todayDones from "./todayDones"
+import habitPreviewData from "./habitPreviewData"
+import habitDetailedData from "./habitDetailedData"
 import { reducer as reduxFormReducer } from "redux-form"
 
 export default combineReducers({
   form: reduxFormReducer,
-  habits,
-  records,
-  todayDones,
+  habitPreviewData,
+  habitDetailedData,
 });

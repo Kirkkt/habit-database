@@ -3,9 +3,7 @@ import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
 import { daysAgo } from "../common/Utils"
 
-const getMissStreak = timestamps => daysAgo(timestamps[0])
-
-const getHitStreak = timestamps => {
+const getHitStreak = (timestamps, offset = 0) => {
   let hitStreak = 0
   let i = 0
   while (true) {
@@ -20,23 +18,30 @@ const getHitStreak = timestamps => {
   }
 }
 
-const getStreak = timestamps => {
+const getStreak = (timestamps, offset = 0) => {
   if (!timestamps || timestamps.length === 0) {
     return {
       // TODO: use enum
       streakType: "NEW",
     }
   }
-  const hitStreak = getHitStreak(timestamps)
+  const hitStreak = getHitStreak(timestamps, offset)
   if (hitStreak !== 0) {
     return {
       streakType: "HIT",
       streakLenght: hitStreak,
     }
   }
+  for (let i = 0; i < timestamps.length; i++) {
+    if (daysAgo(timestamps[i]) >= offset) {
+      return {
+        streakType: "MISS",
+        streakLength: daysAgo(timestamps[i]) - offset,
+      }
+    }
+  }
   return {
-    streakType: "MISS",
-    streakLenght: getMissStreak(timestamps)
+    streakType: "NEW",
   }
 }
 
