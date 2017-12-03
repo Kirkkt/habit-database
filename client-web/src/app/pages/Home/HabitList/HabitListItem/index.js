@@ -9,6 +9,23 @@ import { setTodayDone, setTodayUndone } from "actions"
 
 import DeleteDialog from "./DeleteDialog"
 
+const StreakText = styled.div`
+  display: inline;
+  color: #bbb;
+  margin: auto 10px;
+`
+
+const Streak = ({
+  streak: {
+    streakType,
+    streakLength,
+  },
+}) => (
+  <StreakText>
+    {streakType === "NEW" ? "NEW" : `${streakType.charAt(0)}${streakLength}`}
+  </StreakText>
+)
+
 const Wrapper = styled.div`
   box-sizing: border-box;
   width: 100%;
@@ -35,10 +52,7 @@ const HabitItem = ({
     name,
     id,
     doneToday,
-    streak: {
-      streakType,
-      streakLength,
-    },
+    streak,
   },
   isOddItem,
   deleteDialogOpened,
@@ -53,6 +67,7 @@ const HabitItem = ({
       />
     </ActionWrapper>
     <NameWrapper>{name}</NameWrapper>
+    <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
       <button onClick={toggleDeleteDialogOpened}>-</button>
     </ActionWrapper> }
@@ -75,9 +90,6 @@ export default compose(
       habit: {
         id,
         doneToday,
-        streak: {
-          streakType,
-        },
       },
     }) => () => {
       if (doneToday) {
