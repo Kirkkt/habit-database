@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { fetchHabitPreviewData } from "actions"
 import HabitListItem from "./HabitListItem"
 
-const HabitList = ({ habits, todayDones, habitPreviewData }) => (
+const HabitList = ({ habitPreviewData }) => (
   <div>
     {
       habitPreviewData.map((habit, index) => (
@@ -20,7 +20,7 @@ const HabitList = ({ habits, todayDones, habitPreviewData }) => (
 
 export default compose(
   connect(
-    ({ habits, todayDones, habitPreviewData }) => ({ habits, todayDones, habitPreviewData }),
+    ({ habitPreviewData }) => ({ habitPreviewData }),
     () => ({ fetchHabitPreviewData }),
   ),
   lifecycle({

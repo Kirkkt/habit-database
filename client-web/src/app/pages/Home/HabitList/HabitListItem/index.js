@@ -5,7 +5,7 @@ import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
 
 import { shouldEnableQuickDelete } from "common/Config"
-import { setTodayDone, setTodayUndone } from "actions/todayDones"
+import { setTodayDone, setTodayUndone } from "actions"
 
 import DeleteDialog from "./DeleteDialog"
 
@@ -34,6 +34,7 @@ const HabitItem = ({
   habit: {
     name,
     id,
+    doneToday,
     streak: {
       streakType,
       streakLength,
@@ -47,7 +48,7 @@ const HabitItem = ({
   <Wrapper isOddItem={isOddItem}>
     <ActionWrapper>
       <Checkbox
-        checked={streakType === "HIT"}
+        checked={doneToday}
         onChange={toggleDoneToday}
       />
     </ActionWrapper>
@@ -73,12 +74,13 @@ export default compose(
     toggleDoneToday: ({
       habit: {
         id,
+        doneToday,
         streak: {
           streakType,
         },
       },
     }) => () => {
-      if (streakType === "HIT") {
+      if (doneToday) {
         setTodayUndone(id)
       } else {
         setTodayDone(id)

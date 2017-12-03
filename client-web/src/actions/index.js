@@ -83,10 +83,7 @@ export const setTodayDone = id => {
 export const setTodayUndone = id => {
   store.dispatch({
     type: "SET_TODAY_UNDONE",
-    payload: {
-      id: id,
-      timestamp: Date.now(),
-    },
+    payload: id,
   })
   sleepPromise(MOCK_API_LATENCY)
     .then(() => fetch("http://localhost:2379/setTodayUndone", {

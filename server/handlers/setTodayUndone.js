@@ -3,7 +3,8 @@ import Database from "../common/Database"
 import { isToday } from "../common/Utils"
 
 const handle = ({ id }, callback) => {
-  let dbToClose;
+  id = +id
+  let dbToClose
   const currentTimestamp = Date.now()
   Database.getMongoClientPromise()
     .then(({db}) => {
