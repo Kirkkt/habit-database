@@ -56,6 +56,8 @@ export const setTodayDone = id => {
     .then(responseJson => {
       if (!responseJson.success) {
         // TODO: error handling
+      } else {
+        fetchHabitPreviewData()
       }
     })
     .catch(({message}) => console.log(message))
@@ -76,6 +78,8 @@ export const setTodayUndone = id => {
     .then(responseJson => {
       if (!responseJson.success) {
         // TODO: error handling
+      } else {
+        fetchHabitPreviewData()
       }
     })
     .catch(({message}) => console.log(message))
