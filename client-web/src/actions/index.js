@@ -2,24 +2,6 @@ import store from "store"
 import { sleepPromise } from "common/Utils"
 import { MOCK_API_LATENCY } from "common/Config"
 
-export const fetchHabitDetailedData = id => {
-  sleepPromise(MOCK_API_LATENCY)
-    .then(() => fetch("http://localhost:2379/fetchHabitDetailedData", {
-      method: "POST",
-      param: "id=" + id,
-    }))
-    .then(response => response.json())
-    .then(responseJson => {
-      if (responseJson.success) {
-        store.dispatch({
-          type: "FETCH_HABITS",
-          payload: responseJson.habits,
-        })
-      }
-    })
-    .catch(({ message }) => console.log(message))
-}
-
 export const createHabit = name => {
   sleepPromise(MOCK_API_LATENCY)
     .then(() => fetch("http://localhost:2379/createHabit", {
@@ -34,7 +16,7 @@ export const createHabit = name => {
           type: "CREATE_HABIT",
           payload: {
             id: responseJson.id,
-            name: name,
+            name,
           },
         })
       }

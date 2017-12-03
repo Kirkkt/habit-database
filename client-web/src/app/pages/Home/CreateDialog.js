@@ -10,7 +10,7 @@ import Dialog, {
   DialogTitle,
 } from "material-ui/Dialog"
 
-import { createHabit } from "actions/habits"
+import { createHabit } from "actions"
 
 const WidthHolder = styled.div`
   width: 400px;

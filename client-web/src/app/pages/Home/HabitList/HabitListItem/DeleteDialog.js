@@ -9,7 +9,7 @@ import Dialog, {
 } from "material-ui/Dialog"
 import styled from "styled-components"
 
-import { deleteHabit } from "actions/habits"
+import { deleteHabit } from "actions"
 
 const WidthHolder = styled.div`
   width: 400px;
