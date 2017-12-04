@@ -3,6 +3,9 @@ import { compose, withState, withHandlers, mapProps } from "recompose"
 import { connect } from "react-redux"
 import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
+import IconButton from "material-ui/IconButton"
+import DeleteIcon from "material-ui-icons/Delete"
+import Tooltip from "material-ui/Tooltip"
 
 import { shouldEnableQuickDelete } from "common/Config"
 import { setTodayDone, setTodayUndone } from "actions"
@@ -69,7 +72,11 @@ const HabitItem = ({
     <NameWrapper>{name}</NameWrapper>
     <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
-      <button onClick={toggleDeleteDialogOpened}>-</button>
+      <Tooltip id="tooltip-icon" title="Delete" placement="left">
+        <IconButton aria-label="Delete" onClick={toggleDeleteDialogOpened} tooltip="delete">
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
     </ActionWrapper> }
     <DeleteDialog
       name={name}
