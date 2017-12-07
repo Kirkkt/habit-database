@@ -1,5 +1,6 @@
+import Database from "~/common/Database"
+
 import handlerFactory from "./handlerFactory"
-import Database from "../common/Database"
 
 const asyncHandle = async (requestData, callback) => {
   const { db } = await Database.getMongoClientPromise()

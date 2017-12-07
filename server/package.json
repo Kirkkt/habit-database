@@ -19,5 +19,8 @@
     "node": "babel-node server.js",
     "mongo": "mkdir mongodb 2> /dev/null; mongod --dbpath mongodb --port 27193",
     "start": "npm-run-all --parallel mongo node"
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^5.1.0"
   }
 }

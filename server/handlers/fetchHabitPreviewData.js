@@ -1,8 +1,8 @@
+import Database from "~/common/Database"
+import { daysAgo } from "~/common/Utils"
+import { StreakTypes } from "~/common/Constants"
+
 import handlerFactory from "./handlerFactory"
-// TODO: how to import by absolute path
-import Database from "../common/Database"
-import { daysAgo } from "../common/Utils"
-import { StreakTypes } from "../common/Constants"
 
 const getHitStreak = timestamps => {
   let hitStreak = 0

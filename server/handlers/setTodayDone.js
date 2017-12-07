@@ -1,6 +1,7 @@
+import Database from "~/common/Database"
+import { daysAgo } from "~/common/Utils"
+
 import handlerFactory from "./handlerFactory"
-import Database from "../common/Database"
-import { daysAgo } from "../common/Utils"
 
 const getTimestampInMatches = async ({ db, id, matches }) => {
   if (matches && matches.length > 0) {

@@ -4,6 +4,7 @@
     "power-assert"
   ],
   "plugins": [
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    ["babel-plugin-root-import"]
   ]
 }
