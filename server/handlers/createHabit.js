@@ -1,33 +1,22 @@
 import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
 
-// TODO: how to enable dev env hot reload for node/express?
-const handle = (requestData, callback) => {
+const asyncHandle = async (requestData, callback) => {
   const doc = {
     ...requestData,
     id: Date.now(),
   }
-  Database.getMongoClientPromise()
-    .then(({db}) => {
-      return Database.insertDocPromise({
-        db,
-        collection: "habits",
-        doc,
-      })
-    })
-    .then(({db}) => {
-      db.close();
-      callback({
-        success: true,
-        id: doc.id,
-      })
-    })
-    .catch(err => callback({
-      error: {
-        message: '' + err.message,
-      },
-      success: false,
-    }))
+  const { db } = await Database.getMongoClientPromise()
+  await Database.insertDocPromise({
+    db,
+    collection: "habits",
+    doc,
+  })
+  await db.close()
+  callback({
+    success: true,
+    id: doc.id,
+  })
 }
 
-export default handlerFactory(handle, "/createHabit", ["name"])
+export default handlerFactory(asyncHandle, "/createHabit", ["name"])

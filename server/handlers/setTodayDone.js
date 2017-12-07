@@ -2,42 +2,32 @@ import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
 import { isToday } from "../common/Utils"
 
-const handle = ({ id }, callback) => {
-  id = +id
-  let dbToClose;
-  const currentTimestamp = Date.now()
-  Database.getMongoClientPromise()
-    .then(({db}) => {
-      dbToClose = db
-      return db.collection("records").find({ id }).toArray()
-    }).then(docs => {
-      const matches = docs.filter(({ timestamp }) => isToday(timestamp))
-      if (matches.length === 0) {
-        return Database.insertDocPromise({
-          db: dbToClose,
-          collection: "records",
-          doc: {
-            id,
-            timestamp: currentTimestamp,
-          }
-        })
-      } else {
-        return Promise.resolve({ timestamp: matches[0].timestamp, db: dbToClose })
-      }
-    }).then(({ timestamp, db }) => {
-      db.close()
-      callback({
-        success: true,
-        id,
-        timestamp: timestamp || currentTimestamp,
-      })
-    })
-    .catch(err => callback({
-      error: {
-        message: '' + err.message,
-      },
-      success: false,
-    }))
+const getTimestampInMatches = async ({ db, id, matches }) => {
+  if (matches && matches.length > 0) {
+    return matches[0]
+  }
+  const { timestamp } = await Database.insertDocPromise({
+    db,
+    collection: "records",
+    doc: {
+      id,
+      timestamp: Date.now(),
+    }
+  })
+  return timestamp
 }
 
-export default handlerFactory(handle, "/setTodayDone", ["id"])
+const asyncHandle = async ({ id }, callback) => {
+  id = +id;
+  const { db } = await Database.getMongoClientPromise()
+  const recordDocs = await db.collection("records").find({ id }).toArray()
+  const matches = recordDocs.filter(({ timestamp }) => isToday(timestamp))
+  const timestamp = await getTimestampInMatches({ db, id, matches })
+  await db.close()
+  callback({
+    success: true,
+    timestamp,
+  })
+}
+
+export default handlerFactory(asyncHandle, "/setTodayDone", ["id"])

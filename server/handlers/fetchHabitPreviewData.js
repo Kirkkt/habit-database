@@ -58,39 +58,23 @@ const getHabitPreviewData = (habits, records) => habits.map(habit => {
   }
 })
 
-const handle = (requestData, callback) => {
-  let dbToClose
-  let habits
-  Database.getMongoClientPromise()
-    .then(({db}) => {
-      dbToClose = db
-      return db.collection("habits").find({}).toArray()
-    })
-    .then(docs => {
-      habits = docs.map(habit => {
-        // TODO: ramda or lodashFP?
-        delete habit["_id"]
-        return habit
-      })
-      return dbToClose.collection("records").find({}).toArray()
-    })
-    .then(docs => {
-      dbToClose.close()
-      const records = docs.map(record => {
-        delete record["_id"]
-        return record
-      })
-      callback({
-        success: true,
-        data: getHabitPreviewData(habits, records),
-      })
-    })
-    .catch(err => callback({
-      error: {
-        message: '' + err.message,
-      },
-      success: false,
-    }))
+const asyncHandle = async (requestData, callback) => {
+  const { db } = await Database.getMongoClientPromise()
+  const habitDocs = await db.collection("habits").find({}).toArray()
+  const habits = habitDocs.map(habit => {
+    delete habit["_id"]
+    return habit
+  })
+  const recordDocs = await db.collection("records").find({}).toArray()
+  const records = recordDocs.map(record => {
+    delete record["_id"]
+    return record
+  })
+  await db.close()
+  callback({
+    success: true,
+    data: getHabitPreviewData(habits, records),
+  })
 }
 
-export default handlerFactory(handle, "/fetchHabitPreviewData", [])
+export default handlerFactory(asyncHandle, "/fetchHabitPreviewData", [])

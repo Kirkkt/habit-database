@@ -2,48 +2,32 @@ import handlerFactory from "./handlerFactory"
 import Database from "../common/Database"
 import { isToday } from "../common/Utils"
 
-const handle = ({ id }, callback) => {
-  id = +id
-  let dbToClose
-  const currentTimestamp = Date.now()
-  Database.getMongoClientPromise()
-    .then(({db}) => {
-      dbToClose = db
-      return db.collection("records").find({ id }).toArray()
-    }).then(docs => {
-      const matches = docs.filter(({ timestamp }) => isToday(timestamp))
-      if (matches.length === 0) {
-        dbToClose.close()
-        callback({
-          success: true,
-          id,
-        })
-        return Promise.resolve(dbToClose)
-      } else {
-        const timestamp = matches[0].timestamp
-        callback({
-          success: true,
-          id,
-          timestamp,
-        })
-        return Database.deleteManyPromise({
-          db: dbToClose,
-          collection: "records",
-          pattern: {
-            id,
-            timestamp,
-          },
-        })
+const getTimestampInMatches = async ({ db, id, matches }) => {
+  if (matches && matches.length > 0) {
+    const timestamp = matches[0].timestamp
+    await Database.deleteManyPromise({
+      db,
+      collection: "records",
+      pattern: {
+        id,
+        timestamp,
       }
-    }).then(({ db }) => {
-      db.close()
     })
-    .catch(err => callback({
-      error: {
-        message: '' + err.message,
-      },
-      success: false,
-    }))
+    return timestamp
+  }
 }
 
-export default handlerFactory(handle, "/setTodayUndone", ["id"])
+const asyncHandle = async ({ id }, callback) => {
+  id = +id;
+  const { db } = await Database.getMongoClientPromise()
+  const recordDocs = await db.collection("records").find({ id }).toArray()
+  const matches = recordDocs.filter(({ timestamp }) => isToday(timestamp))
+  const timestamp = await getTimestampInMatches({ db, id, matches })
+  await db.close()
+  callback({
+    success: true,
+    timestamp,
+  })
+}
+
+export default handlerFactory(asyncHandle, "/setTodayUndone", ["id"])

@@ -1,10 +1,8 @@
 import express from "express"
 
-import fetchHabits from "./handlers/fetchHabits"
 import createHabit from "./handlers/createHabit"
-import updateHabit from "./handlers/updateHabit"
+// import updateHabit from "./handlers/updateHabit"
 import deleteHabit from "./handlers/deleteHabit"
-import fetchTodayDoneForAll from "./handlers/fetchTodayDoneForAll"
 import setTodayDone from "./handlers/setTodayDone"
 import setTodayUndone from "./handlers/setTodayUndone"
 
@@ -12,18 +10,19 @@ import fetchHabitPreviewData from "./handlers/fetchHabitPreviewData"
 
 const app = express()
 
-app.post("/fetchHabits", fetchHabits)
 app.post("/createHabit", createHabit)
-app.post("/updateHabit", updateHabit)
+// app.post("/updateHabit", updateHabit)
 app.post("/deleteHabit", deleteHabit)
-app.post("/fetchTodayDoneForAll", fetchTodayDoneForAll)
 app.post("/setTodayDone", setTodayDone)
 app.post("/setTodayUndone", setTodayUndone)
-
 app.post("/fetchHabitPreviewData", fetchHabitPreviewData)
 
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(2379)
   console.log("Express started on port 2379")
+}
+
+function* hello() {
+  console.log('gen')
 }
