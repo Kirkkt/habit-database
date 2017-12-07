@@ -2,6 +2,7 @@ import handlerFactory from "./handlerFactory"
 // TODO: how to import by absolute path
 import Database from "../common/Database"
 import { daysAgo } from "../common/Utils"
+import { StreakTypes } from "../common/Constants"
 
 const getHitStreak = timestamps => {
   let hitStreak = 0
@@ -21,27 +22,26 @@ const getHitStreak = timestamps => {
 const getStreak = timestamps => {
   if (!timestamps || timestamps.length === 0) {
     return {
-      // TODO: use enum
-      streakType: "NEW",
+      streakType: StreakTypes.NEW,
     }
   }
   const hitStreak = getHitStreak(timestamps)
   if (hitStreak !== 0) {
     return {
-      streakType: "HIT",
+      streakType: StreakTypes.HIT,
       streakLength: hitStreak,
     }
   }
   for (let i = 0; i < timestamps.length; i++) {
     if (daysAgo(timestamps[i]) >= 0) {
       return {
-        streakType: "MISS",
+        streakType: StreakTypes.MISS,
         streakLength: daysAgo(timestamps[i]),
       }
     }
   }
   return {
-    streakType: "NEW",
+    streakType: StreakTypes.NEW,
   }
 }
 
@@ -54,7 +54,7 @@ const getHabitPreviewData = (habits, records) => habits.map(habit => {
   return {
     ...habit,
     streak,
-    doneToday: streak.streakType === "HIT",
+    doneToday: streak.streakType === StreakTypes.HIT,
   }
 })
 

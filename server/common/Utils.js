@@ -1,8 +1,3 @@
-// TODO: delete
-export const isToday = timestamp => {
-  return (new Date(timestamp)).toDateString() === (new Date()).toDateString()
-}
-
 const MILLI_SECONDS_IN_DAY = 24 * 60 * 60 * 1000
 
 // TODO: test
