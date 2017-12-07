@@ -21,11 +21,10 @@ const HabitList = ({ habitPreviewData }) => (
 export default compose(
   connect(
     ({ habitPreviewData }) => ({ habitPreviewData }),
-    () => ({ fetchHabitPreviewData }),
   ),
   lifecycle({
     componentWillMount() {
-      this.props.fetchHabitPreviewData()
+      fetchHabitPreviewData()
     },
   }),
 )(HabitList)

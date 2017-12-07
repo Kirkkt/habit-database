@@ -26,20 +26,7 @@ export const createHabit = name => {
 
 // TODO: pagination
 export const fetchHabitPreviewData = () => {
-  sleepPromise(MOCK_API_LATENCY)
-    .then(() => fetch("http://localhost:2379/fetchHabitPreviewData", {
-      method: 'POST',
-    }))
-    .then(response => response.json())
-    .then(responseJson => {
-      if (responseJson.success) {
-        store.dispatch({
-          type: "FETCH_HABIT_PREVIEW_DATA",
-          payload: responseJson.data,
-        })
-      }
-    })
-    .catch(({ message }) => console.log(message))
+  store.dispatch({ type: "FETCH_HABIT_PREVIEW_DATA_SAGA" })
 }
 
 export const setTodayDone = id => {
