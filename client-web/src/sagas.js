@@ -1,4 +1,5 @@
 import { call, put, takeLatest, takeEvery } from "redux-saga/effects"
+
 import {
   fetchHabitPreviewDataApiCall,
   createHabitApiCall,
@@ -6,6 +7,23 @@ import {
   setTodayUndoneApiCall,
   deleteHabitApiCall,
 } from "api"
+import {
+  CREATE_HABIT,
+  CREATE_HABIT_ERROR,
+  CREATE_HABIT_SAGA,
+  DELETE_HABIT,
+  DELETE_HABIT_ERROR,
+  DELETE_HABIT_SAGA,
+  FETCH_HABIT_PREVIEW_DATA,
+  FETCH_HABIT_PREVIEW_DATA_ERROR,
+  FETCH_HABIT_PREVIEW_DATA_SAGA,
+  SET_TODAY_DONE,
+  SET_TODAY_DONE_ERROR,
+  SET_TODAY_DONE_SAGA,
+  SET_TODAY_UNDONE,
+  SET_TODAY_UNDONE_ERROR,
+  SET_TODAY_UNDONE_SAGA,
+} from "actions/actionTypes"
 
 function* errorHandling(actionType, error) {
   yield put({
@@ -19,14 +37,14 @@ function* fetchHabitPreviewData(action) {
     const responseJson = yield call(fetchHabitPreviewDataApiCall)
     if (responseJson.success) {
       yield put({
-        type: "FETCH_HABIT_PREVIEW_DATA",
+        type: FETCH_HABIT_PREVIEW_DATA,
         payload: responseJson.data,
       })
     } else {
-      yield errorHandling("FETCH_HABIT_PREVIEW_DATA_ERROR", responseJson.error)
+      yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, responseJson.error)
     }
   } catch (error) {
-    yield errorHandling("FETCH_HABIT_PREVIEW_DATA_ERROR", error)
+    yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, error)
   }
 }
 
@@ -35,34 +53,33 @@ function* createHabit(action) {
     const responseJson = yield call(createHabitApiCall, action.payload)
     if (responseJson.success) {
       yield put({
-        type: "CREATE_HABIT",
+        type: CREATE_HABIT,
         payload: {
           id: responseJson.id,
           name: action.payload,
         },
       })
     } else {
-      yield errorHandling("CREATE_HABIT_ERROR", responseJson.error)
+      yield errorHandling(CREATE_HABIT_ERROR, responseJson.error)
     }
   } catch (error) {
-    yield errorHandling("CREATE_HABIT_ERROR", error)
+    yield errorHandling(CREATE_HABIT_ERROR, error)
   }
 }
 
-// TODO: update state first, api call second?
 function* setTodayDone(action) {
   try {
     yield put({
-      type: "SET_TODAY_DONE",
+      type: SET_TODAY_DONE,
       payload: action.payload,
     })
     const responseJson = yield call(setTodayDoneApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling("SET_TODAY_DONE_ERROR", responseJson.error)
+      yield errorHandling(SET_TODAY_DONE_ERROR, responseJson.error)
     }
     yield fetchHabitPreviewData()
   } catch (error) {
-    yield errorHandling("SET_TODAY_DONE_ERROR", error)
+    yield errorHandling(SET_TODAY_DONE_ERROR, error)
     yield fetchHabitPreviewData()
   }
 }
@@ -70,16 +87,16 @@ function* setTodayDone(action) {
 function* setTodayUndone(action) {
   try {
     yield put({
-      type: "SET_TODAY_UNDONE",
+      type: SET_TODAY_UNDONE,
       payload: action.payload,
     })
     const responseJson = yield call(setTodayUndoneApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling("SET_TODAY_UNDONE_ERROR", responseJson.error)
+      yield errorHandling(SET_TODAY_UNDONE_ERROR, responseJson.error)
     }
     yield fetchHabitPreviewData()
   } catch (error) {
-    yield errorHandling("SET_TODAY_UNDONE_ERROR", error)
+    yield errorHandling(SET_TODAY_UNDONE_ERROR, error)
     yield fetchHabitPreviewData()
   }
 }
@@ -87,24 +104,24 @@ function* setTodayUndone(action) {
 function* deleteHabit(action) {
   try {
     yield put({
-      type: "DELETE_HABIT",
+      type: DELETE_HABIT,
       payload: action.payload,
     })
     const responseJson = yield call(deleteHabitApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling("DELETE_HABIT_ERROR", responseJson.error)
+      yield errorHandling(DELETE_HABIT_ERROR, responseJson.error)
       yield fetchHabitPreviewData()
     }
   } catch (error) {
-    yield errorHandling("DELETE_HABIT_ERROR", error)
+    yield errorHandling(DELETE_HABIT_ERROR, error)
     yield fetchHabitPreviewData()
   }
 }
 
 export default function* rootSaga() {
-  yield takeLatest("FETCH_HABIT_PREVIEW_DATA_SAGA", fetchHabitPreviewData)
-  yield takeEvery("CREATE_HABIT_SAGA", createHabit)
-  yield takeLatest("SET_TODAY_DONE_SAGA", setTodayDone)
-  yield takeLatest("SET_TODAY_UNDONE_SAGA", setTodayUndone)
-  yield takeEvery("DELETE_HABIT_SAGA", deleteHabit)
+  yield takeLatest(FETCH_HABIT_PREVIEW_DATA_SAGA, fetchHabitPreviewData)
+  yield takeEvery(CREATE_HABIT_SAGA, createHabit)
+  yield takeLatest(SET_TODAY_DONE_SAGA, setTodayDone)
+  yield takeLatest(SET_TODAY_UNDONE_SAGA, setTodayUndone)
+  yield takeEvery(DELETE_HABIT_SAGA, deleteHabit)
 }

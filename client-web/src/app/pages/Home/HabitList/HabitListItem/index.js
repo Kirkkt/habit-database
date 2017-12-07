@@ -8,6 +8,7 @@ import DeleteIcon from "material-ui-icons/Delete"
 import Tooltip from "material-ui/Tooltip"
 
 import { shouldEnableQuickDelete } from "common/Config"
+import { StreakTypes } from "common/Constants"
 import { setTodayDone, setTodayUndone } from "actions"
 
 import DeleteDialog from "./DeleteDialog"
@@ -25,7 +26,7 @@ const Streak = ({
   },
 }) => (
   <StreakText>
-    {streakType === "NEW" ? "NEW" : `${streakType.charAt(0)}${streakLength}`}
+    {streakType === StreakTypes.NEW ? StreakTypes.NEW : `${streakType.charAt(0)}${streakLength}`}
   </StreakText>
 )
 

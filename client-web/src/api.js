@@ -1,11 +1,12 @@
 import { sleepPromise } from "common/Utils"
 import { MOCK_API_LATENCY } from "common/Config"
 
-// TODO: extract localhost to a common place?
+const getUrl = path => `http://localhost:2379/${path}`
+
 export function* fetchHabitPreviewDataApiCall() {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(
-    "http://localhost:2379/fetchHabitPreviewData",
+    getUrl("fetchHabitPreviewData"),
     {
       method: "POST",
     }
@@ -17,7 +18,7 @@ export function* fetchHabitPreviewDataApiCall() {
 export function* createHabitApiCall(name) {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(
-    "http://localhost:2379/createHabit",
+    getUrl("createHabit"),
     {
       method: "POST",
       body: "name=" + name,
@@ -30,7 +31,7 @@ export function* createHabitApiCall(name) {
 export function* setTodayDoneApiCall(id) {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(
-    "http://localhost:2379/setTodayDone",
+    getUrl("setTodayDone"),
     {
       method: "POST",
       body: "id=" + id,
@@ -43,7 +44,7 @@ export function* setTodayDoneApiCall(id) {
 export function* setTodayUndoneApiCall(id) {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(
-    "http://localhost:2379/setTodayUndone",
+    getUrl("setTodayUndone"),
     {
       method: "POST",
       body: "id=" + id,
@@ -56,7 +57,7 @@ export function* setTodayUndoneApiCall(id) {
 export function* deleteHabitApiCall(id) {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(
-    "http://localhost:2379/deleteHabit",
+    getUrl("deleteHabit"),
     {
       method: "POST",
       body: "id=" + id,
@@ -65,22 +66,3 @@ export function* deleteHabitApiCall(id) {
   const responseJson = yield response.json()
   return responseJson
 }
-
-  // store.dispatch({
-  //   type: "SET_TODAY_DONE",
-  //   payload: id,
-  // })
-  // sleepPromise(MOCK_API_LATENCY)
-  //   .then(() => fetch("http://localhost:2379/setTodayDone", {
-  //     method: "POST",
-  //     body: "id=" + id,
-  //   }))
-  //   .then(response => response.json())
-  //   .then(responseJson => {
-  //     if (!responseJson.success) {
-  //       // TODO: error handling
-  //     } else {
-  //       fetchHabitPreviewData()
-  //     }
-  //   })
-  //   .catch(({message}) => console.log(message))
