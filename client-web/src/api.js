@@ -3,6 +3,19 @@ import { MOCK_API_LATENCY } from "common/Config"
 
 const getUrl = path => `http://localhost:2379/${path}`
 
+export function* fetchHabitDetailedDataApiCall(id) {
+  yield sleepPromise(MOCK_API_LATENCY)
+  const response = yield fetch(
+    getUrl("fetchHabitDetailedData"),
+    {
+      method: "POST",
+      body: "id=" + id,
+    }
+  )
+  const responseJson = yield response.json()
+  return responseJson
+}
+
 export function* fetchHabitPreviewDataApiCall() {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(

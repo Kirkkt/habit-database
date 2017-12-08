@@ -2,6 +2,7 @@ import store from "store"
 import {
   CREATE_HABIT_SAGA,
   DELETE_HABIT_SAGA,
+  FETCH_HABIT_DETAILED_DATA_SAGA,
   FETCH_HABIT_PREVIEW_DATA_SAGA,
   SET_TODAY_DONE_SAGA,
   SET_TODAY_UNDONE_SAGA,
@@ -38,6 +39,13 @@ export const setTodayUndone = id => {
 export const deleteHabit = id => {
   store.dispatch({
     type: DELETE_HABIT_SAGA,
+    payload: id,
+  })
+}
+
+export const fetchHabitDetailedData = id => {
+  store.dispatch({
+    type: FETCH_HABIT_DETAILED_DATA_SAGA,
     payload: id,
   })
 }

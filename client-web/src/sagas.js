@@ -2,6 +2,7 @@ import { call, put, takeLatest, takeEvery } from "redux-saga/effects"
 
 import {
   fetchHabitPreviewDataApiCall,
+  fetchHabitDetailedDataApiCall,
   createHabitApiCall,
   setTodayDoneApiCall,
   setTodayUndoneApiCall,
@@ -14,6 +15,9 @@ import {
   DELETE_HABIT,
   DELETE_HABIT_ERROR,
   DELETE_HABIT_SAGA,
+  FETCH_HABIT_DETAILED_DATA,
+  FETCH_HABIT_DETAILED_DATA_ERROR,
+  FETCH_HABIT_DETAILED_DATA_SAGA,
   FETCH_HABIT_PREVIEW_DATA,
   FETCH_HABIT_PREVIEW_DATA_ERROR,
   FETCH_HABIT_PREVIEW_DATA_SAGA,
@@ -30,6 +34,22 @@ function* errorHandling(actionType, error) {
     type: actionType,
     message: error && error.message,
   })
+}
+
+function* fetchHabitDetailedData(action) {
+  try {
+    const responseJson = yield call(fetchHabitDetailedDataApiCall, action.payload)
+    if (responseJson.success) {
+      yield put({
+        type: FETCH_HABIT_DETAILED_DATA,
+        payload: responseJson.data,
+      })
+    } else {
+      yield errorHandling(FETCH_HABIT_DETAILED_DATA_ERROR, responseJson.error)
+    }
+  } catch (error) {
+    yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, error)
+  }
 }
 
 function* fetchHabitPreviewData(action) {
@@ -120,6 +140,7 @@ function* deleteHabit(action) {
 
 export default function* rootSaga() {
   yield takeLatest(FETCH_HABIT_PREVIEW_DATA_SAGA, fetchHabitPreviewData)
+  yield takeLatest(FETCH_HABIT_DETAILED_DATA_SAGA, fetchHabitDetailedData)
   yield takeEvery(CREATE_HABIT_SAGA, createHabit)
   yield takeLatest(SET_TODAY_DONE_SAGA, setTodayDone)
   yield takeLatest(SET_TODAY_UNDONE_SAGA, setTodayUndone)

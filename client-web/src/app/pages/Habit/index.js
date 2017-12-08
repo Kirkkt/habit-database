@@ -1,13 +1,21 @@
 import React from "react"
-import { compose, withState, mapProps } from "recompose"
-import { withRouter } from "react-router-dom"
+import { compose, lifecycle } from "recompose"
+
+import { fetchHabitDetailedData } from "actions"
+
+import TopBar from "./TopBar"
 
 const Habit = ({ history, match: { params: { id } } }) => (
   <div>
-    hello, {id}
+    <TopBar />
+    <div style={{ height: 2000, width: "100%"}}/>
   </div>
 )
 
 export default compose(
-  withRouter,
+  lifecycle({
+    componentWillMount() {
+      fetchHabitDetailedData()
+    },
+  }),
 )(Habit)

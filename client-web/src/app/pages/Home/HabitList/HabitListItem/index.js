@@ -82,7 +82,7 @@ const HabitItem = ({
     <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
       <Tooltip id="tooltip-icon" title="Delete" placement="left">
-        <IconButton aria-label="Delete" onClick={toggleDeleteDialogOpened} tooltip="delete">
+        <IconButton aria-label="Delete" onClick={toggleDeleteDialogOpened} tooltip="Delete">
           <DeleteIcon />
         </IconButton>
       </Tooltip>
