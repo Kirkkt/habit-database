@@ -2,9 +2,9 @@ import React from "react"
 import { compose, withState, mapProps } from "recompose"
 import { withRouter } from "react-router-dom"
 
-const Habit = ({ history }) => (
+const Habit = ({ history, match: { params: { id } } }) => (
   <div>
-  <button onClick={() => history.push('/')}>hello</button>
+    hello, {id}
   </div>
 )
 

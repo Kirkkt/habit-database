@@ -7,6 +7,6 @@ import Habit from "./pages/Habit"
 export default () => (
   <div>
     <Route exact path="/" component={Home} />
-    <Route exact path="/habit" component={Habit} />
+    <Route exact path="/habit/:id" component={Habit} />
   </div>
 )
