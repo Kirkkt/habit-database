@@ -1,12 +1,12 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import Home from './pages/Home'
-import "./App.css"
+import React from "react"
+import { Route } from "react-router-dom"
+
+import Home from "./pages/Home"
+import Habit from "./pages/Habit"
 
 export default () => (
   <div>
-    <div>
-      <Route exact path="/" component={Home} />
-    </div>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/habit" component={Habit} />
   </div>
 )

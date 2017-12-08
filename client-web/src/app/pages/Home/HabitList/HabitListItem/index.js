@@ -6,6 +6,7 @@ import Checkbox from "material-ui/Checkbox"
 import IconButton from "material-ui/IconButton"
 import DeleteIcon from "material-ui-icons/Delete"
 import Tooltip from "material-ui/Tooltip"
+import { withRouter } from "react-router-dom"
 
 import { shouldEnableQuickDelete } from "common/Config"
 import { StreakTypes } from "common/Constants"
@@ -43,7 +44,9 @@ const Wrapper = styled.div`
 
 const NameWrapper = styled.div`
   width: 100%;
-  margin: auto;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
 `
 
 const ActionWrapper = styled.div`
@@ -58,6 +61,7 @@ const HabitItem = ({
     doneToday,
     streak,
   },
+  history,
   isOddItem,
   deleteDialogOpened,
   toggleDeleteDialogOpened,
@@ -70,7 +74,11 @@ const HabitItem = ({
         onChange={toggleDoneToday}
       />
     </ActionWrapper>
-    <NameWrapper>{name}</NameWrapper>
+    <NameWrapper
+      onClick={() => history.push(`/habit/${id}`)}
+    >
+      {name}
+    </NameWrapper>
     <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
       <Tooltip id="tooltip-icon" title="Delete" placement="left">
@@ -88,6 +96,7 @@ const HabitItem = ({
   </Wrapper>
 )
 export default compose(
+  withRouter,
   withState("deleteDialogOpened", "setDeleteDialogOpened", false),
   mapProps(({ setDeleteDialogOpened, ...rest }) => ({
     toggleDeleteDialogOpened: () => setDeleteDialogOpened(value => !value),
