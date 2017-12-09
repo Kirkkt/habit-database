@@ -14,6 +14,7 @@ const EditMode = ({ id, name, nameUnderEdit, setNameUnderEdit, toggleEditMode })
       id="name"
       type="text"
       value={nameUnderEdit || name}
+      fullWidth
       style={{
         marginTop: 0,
         marginBottom: 0,
@@ -22,7 +23,7 @@ const EditMode = ({ id, name, nameUnderEdit, setNameUnderEdit, toggleEditMode })
       onChange={event => setNameUnderEdit(event.target.value)}
       onKeyPress={event => {
         if (event.key === "Enter") {
-          renameHabit(id, nameUnderEdit || name)
+          renameHabit(id, (nameUnderEdit || name).trim())
           toggleEditMode()
           event.preventDefault();
         }

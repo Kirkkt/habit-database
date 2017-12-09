@@ -7,9 +7,18 @@ import {
   SET_TODAY_DONE_SAGA,
   SET_TODAY_UNDONE_SAGA,
   UPDATE_HABIT_SAGA,
+  ERROR,
 } from "actions/actionTypes"
 
 export const createHabit = name => {
+  if (!name) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `name is falsy: ${name}`,
+      },
+    })
+  }
   store.dispatch({
     type: CREATE_HABIT_SAGA,
     payload: name,
@@ -24,6 +33,14 @@ export const fetchHabitPreviewData = () => {
 }
 
 export const setTodayDone = id => {
+  if (!id) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `id is falsy: ${id}`,
+      },
+    })
+  }
   store.dispatch({
     type: SET_TODAY_DONE_SAGA,
     payload: id,
@@ -31,20 +48,44 @@ export const setTodayDone = id => {
 }
 
 export const setTodayUndone = id => {
+  if (!id) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `id is falsy: ${id}`,
+      },
+    })
+  }
   store.dispatch({
     type: SET_TODAY_UNDONE_SAGA,
     payload: id,
   })
 }
 
-export const deleteHabit = payload => {
+export const deleteHabit = id => {
+  if (!id) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `id is falsy: ${id}`,
+      },
+    })
+  }
   store.dispatch({
     type: DELETE_HABIT_SAGA,
-    payload,
+    payload: id,
   })
 }
 
 export const fetchHabitDetailedData = id => {
+  if (!id) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `id is falsy: ${id}`,
+      },
+    })
+  }
   store.dispatch({
     type: FETCH_HABIT_DETAILED_DATA_SAGA,
     payload: id,
@@ -52,6 +93,22 @@ export const fetchHabitDetailedData = id => {
 }
 
 export const renameHabit = (id, name) => {
+  if (!name) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `name is falsy: ${name}`,
+      },
+    })
+  }
+  if (!id) {
+    store.dispatch({
+      type: ERROR,
+      payload: {
+        message: `id is falsy: ${id}`,
+      },
+    })
+  }
   store.dispatch({
     type: UPDATE_HABIT_SAGA,
     payload: {
