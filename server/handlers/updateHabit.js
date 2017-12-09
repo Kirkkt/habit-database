@@ -1,41 +1,44 @@
-// import handlerFactory from "./handlerFactory"
-// import Database from "../common/Database"
+import Database from "~/common/Database"
 
-// const asyncHandle = async ({ id }, callback) => {
-//   try {
-//     id = +id;
-//     const currentTimestamp = Date.now()
-//     const { db } = await Database.getMongoClientPromise()
-//   } catch (error) {
-//     callback({
-//       success: false,
-//       error,
-//     })
-//   }
-// }
+import handlerFactory from "./handlerFactory"
 
-// const handle = (requestData, callback) => {
-//   Database.getMongoClientPromise()
-//     .then(({db}) => {
-//       return Database.upsertDocPromise({
-//         db,
-//         collection: "habits",
-//         pattern: { id: Number.parseInt(requestData.id) },
-//         doc: requestData,
-//       })
-//     })
-//     .then(({db}) => {
-//       db.close();
-//       callback({
-//         success: true,
-//       })
-//     })
-//     .catch(err => callback({
-//       error: {
-//         message: '' + err.message,
-//       },
-//       success: false,
-//     }))
-// }
+const getDoc = (requestData, habit) => {
+  let doc = {}
+  for (const key in requestData) {
+    if (key === "id") {
+      continue
+    }
+    doc[key] = requestData[key]
+  }
+  return {
+    ...habit,
+    ...doc,
+  }
+}
 
-// export default handlerFactory(handle, "/updateHabit", ["id"])
+const asyncHandle = async (requestData, callback) => {
+  const { db } = await Database.getMongoClientPromise()
+  const habitDocs = await db.collection("habits").find({ id: +requestData.id }).toArray()
+  if (!habitDocs || habitDocs.length === 0) {
+    callback({
+      success: false,
+      error: {
+        message: `No habit with this id is found, id: ${requestData.id}`
+      }
+    })
+    return
+  }
+  const habit = habitDocs[0]
+  await Database.upsertDocPromise({
+    db,
+    collection: "habits",
+    pattern: { id: Number.parseInt(requestData.id) },
+    doc: getDoc(requestData, habit),
+  })
+  await db.close()
+  callback({
+    success: true,
+  })
+}
+
+export default handlerFactory(asyncHandle, "/updateHabit", ["id"])

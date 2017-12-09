@@ -10,6 +10,8 @@ import Tooltip from "material-ui/Tooltip"
 import { NameWrapper, ActionWrapper } from "app/components/styles"
 import DeleteButton from "app/components/DeleteButton"
 
+import EditableName from "./EditableName"
+
 const TopNavigator = styled.div`
   background: #f3f3f3;
   position: fixed;
@@ -33,7 +35,7 @@ const TopBar = ({
       </IconButton>
     </Tooltip>
     <NameWrapper>
-      {name}
+      <EditableName id={id} />
     </NameWrapper>
     <ActionWrapper>
       <DeleteButton name={name} id={id} afterDelete={() => history.push("/")} />

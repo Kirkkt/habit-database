@@ -67,6 +67,23 @@ export function* setTodayUndoneApiCall(id) {
   return responseJson
 }
 
+export function* updateHabitApiCall({ id, data }) {
+  yield sleepPromise(MOCK_API_LATENCY)
+  let body = `id=${id}`
+  for (const key in data) {
+    body += `&${key}=${data[key]}`
+  }
+  const response = yield fetch(
+    getUrl("updateHabit"),
+    {
+      method: "POST",
+      body,
+    }
+  )
+  const responseJson = yield response.json()
+  return responseJson
+}
+
 export function* deleteHabitApiCall(id) {
   yield sleepPromise(MOCK_API_LATENCY)
   const response = yield fetch(

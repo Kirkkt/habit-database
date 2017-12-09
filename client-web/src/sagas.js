@@ -7,12 +7,15 @@ import {
   setTodayDoneApiCall,
   setTodayUndoneApiCall,
   deleteHabitApiCall,
+  updateHabitApiCall,
 } from "api"
 import {
   CREATE_HABIT,
   CREATE_HABIT_SAGA,
   DELETE_HABIT,
   DELETE_HABIT_SAGA,
+  UPDATE_HABIT,
+  UPDATE_HABIT_SAGA,
   ERROR,
   FETCH_HABIT_DETAILED_DATA,
   FETCH_HABIT_DETAILED_DATA_SAGA,
@@ -133,6 +136,21 @@ function* deleteHabit(action) {
   }
 }
 
+function* updateHabit(action) {
+  try {
+    yield put({
+      type: UPDATE_HABIT,
+      payload: action.payload,
+    })
+    const responseJson = yield call(updateHabitApiCall, action.payload)
+    if (!responseJson.success) {
+      yield errorHandling(responseJson.error)
+    }
+  } catch (error) {
+    yield errorHandling(error)
+  }
+}
+
 export default function* rootSaga() {
   yield takeLatest(FETCH_HABIT_PREVIEW_DATA_SAGA, fetchHabitPreviewData)
   yield takeLatest(FETCH_HABIT_DETAILED_DATA_SAGA, fetchHabitDetailedData)
@@ -140,4 +158,5 @@ export default function* rootSaga() {
   yield takeLatest(SET_TODAY_DONE_SAGA, setTodayDone)
   yield takeLatest(SET_TODAY_UNDONE_SAGA, setTodayUndone)
   yield takeEvery(DELETE_HABIT_SAGA, deleteHabit)
+  yield takeEvery(UPDATE_HABIT_SAGA, updateHabit)
 }

@@ -6,6 +6,7 @@ import {
   FETCH_HABIT_PREVIEW_DATA_SAGA,
   SET_TODAY_DONE_SAGA,
   SET_TODAY_UNDONE_SAGA,
+  UPDATE_HABIT_SAGA,
 } from "actions/actionTypes"
 
 export const createHabit = name => {
@@ -47,5 +48,17 @@ export const fetchHabitDetailedData = id => {
   store.dispatch({
     type: FETCH_HABIT_DETAILED_DATA_SAGA,
     payload: id,
+  })
+}
+
+export const renameHabit = (id, name) => {
+  store.dispatch({
+    type: UPDATE_HABIT_SAGA,
+    payload: {
+      id,
+      data: {
+        name,
+      },
+    },
   })
 }

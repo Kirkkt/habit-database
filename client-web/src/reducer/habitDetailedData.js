@@ -15,9 +15,14 @@ export default (state = {}, { type, payload }) => {
       }
     }
     case UPDATE_HABIT: {
+      const newData = {}
+      newData[payload.id] = {
+        ...newState[payload.id],
+        ...payload.data,
+      }
       return {
         ...newState,
-        ...payload,
+        ...newData,
       }
     }
     default: {
