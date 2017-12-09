@@ -89,16 +89,16 @@ function* setTodayDone(action) {
   try {
     yield put({
       type: SET_TODAY_DONE,
-      payload: action.payload,
+      payload: action.payload.id,
     })
-    const responseJson = yield call(setTodayDoneApiCall, action.payload)
+    const responseJson = yield call(setTodayDoneApiCall, action.payload.id)
     if (!responseJson.success) {
       yield errorHandling(responseJson.error)
     }
-    yield fetchHabitPreviewData()
+    action.payload.callback && action.payload.callback()
   } catch (error) {
     yield errorHandling(error)
-    yield fetchHabitPreviewData()
+    action.payload.callback && action.payload.callback()
   }
 }
 
@@ -106,16 +106,16 @@ function* setTodayUndone(action) {
   try {
     yield put({
       type: SET_TODAY_UNDONE,
-      payload: action.payload,
+      payload: action.payload.id,
     })
-    const responseJson = yield call(setTodayUndoneApiCall, action.payload)
+    const responseJson = yield call(setTodayUndoneApiCall, action.payload.id)
     if (!responseJson.success) {
       yield errorHandling(responseJson.error)
     }
-    yield fetchHabitPreviewData()
+    action.payload.callback && action.payload.callback()
   } catch (error) {
     yield errorHandling(error)
-    yield fetchHabitPreviewData()
+    action.payload.callback && action.payload.callback()
   }
 }
 

@@ -1,16 +1,14 @@
 import React from "react"
-import { compose, withHandlers } from "recompose"
-import { connect } from "react-redux"
 import styled, { css } from "styled-components"
-import Checkbox from "material-ui/Checkbox"
 import { withRouter } from "react-router-dom"
 
 import { shouldEnableQuickDelete } from "common/Config"
 import { StreakTypes } from "common/Constants"
-import { setTodayDone, setTodayUndone } from "actions"
+import { fetchHabitPreviewData } from "actions"
 
 import { ActionWrapper, NameWrapper } from "app/components/styles"
 import DeleteButton from "app/components/DeleteButton"
+import TodayDoneCheckbox from "app/components/TodayDoneCheckbox"
 
 const StreakText = styled.div`
   display: inline;
@@ -53,13 +51,13 @@ const HabitItem = ({
   },
   history,
   isOddItem,
-  toggleDoneToday,
 }) => (
   <Wrapper isOddItem={isOddItem}>
     <ActionWrapper>
-      <Checkbox
-        checked={doneToday}
-        onChange={toggleDoneToday}
+      <TodayDoneCheckbox
+        doneToday={doneToday}
+        id={id}
+        afterChecked={fetchHabitPreviewData}
       />
     </ActionWrapper>
     <NameWrapperClickable
@@ -73,27 +71,4 @@ const HabitItem = ({
     </ActionWrapper> }
   </Wrapper>
 )
-export default compose(
-  withRouter,
-  withHandlers({
-    toggleDoneToday: ({
-      habit: {
-        id,
-        doneToday,
-      },
-    }) => () => {
-      if (doneToday) {
-        setTodayUndone(id)
-      } else {
-        setTodayDone(id)
-      }
-    }
-  }),
-  connect(
-    null,
-    () => ({
-      setTodayDone,
-      setTodayUndone,
-    })
-  )
-)(HabitItem)
+export default withRouter(HabitItem)

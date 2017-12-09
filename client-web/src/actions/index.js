@@ -32,7 +32,7 @@ export const fetchHabitPreviewData = () => {
   })
 }
 
-export const setTodayDone = id => {
+export const setTodayDone = (id, callback) => {
   if (!id) {
     store.dispatch({
       type: ERROR,
@@ -43,11 +43,14 @@ export const setTodayDone = id => {
   }
   store.dispatch({
     type: SET_TODAY_DONE_SAGA,
-    payload: id,
+    payload: {
+      id,
+      callback,
+    },
   })
 }
 
-export const setTodayUndone = id => {
+export const setTodayUndone = (id, callback) => {
   if (!id) {
     store.dispatch({
       type: ERROR,
@@ -58,7 +61,10 @@ export const setTodayUndone = id => {
   }
   store.dispatch({
     type: SET_TODAY_UNDONE_SAGA,
-    payload: id,
+    payload: {
+      id,
+      callback,
+    },
   })
 }
 
