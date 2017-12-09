@@ -10,28 +10,23 @@ import {
 } from "api"
 import {
   CREATE_HABIT,
-  CREATE_HABIT_ERROR,
   CREATE_HABIT_SAGA,
   DELETE_HABIT,
-  DELETE_HABIT_ERROR,
   DELETE_HABIT_SAGA,
+  ERROR,
   FETCH_HABIT_DETAILED_DATA,
-  FETCH_HABIT_DETAILED_DATA_ERROR,
   FETCH_HABIT_DETAILED_DATA_SAGA,
   FETCH_HABIT_PREVIEW_DATA,
-  FETCH_HABIT_PREVIEW_DATA_ERROR,
   FETCH_HABIT_PREVIEW_DATA_SAGA,
   SET_TODAY_DONE,
-  SET_TODAY_DONE_ERROR,
   SET_TODAY_DONE_SAGA,
   SET_TODAY_UNDONE,
-  SET_TODAY_UNDONE_ERROR,
   SET_TODAY_UNDONE_SAGA,
 } from "actions/actionTypes"
 
 function* errorHandling(actionType, error) {
   yield put({
-    type: actionType,
+    type: ERROR,
     message: error && error.message,
   })
 }
@@ -45,10 +40,10 @@ function* fetchHabitDetailedData(action) {
         payload: responseJson.data,
       })
     } else {
-      yield errorHandling(FETCH_HABIT_DETAILED_DATA_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
     }
   } catch (error) {
-    yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, error)
+    yield errorHandling(error)
   }
 }
 
@@ -61,10 +56,10 @@ function* fetchHabitPreviewData(action) {
         payload: responseJson.data,
       })
     } else {
-      yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
     }
   } catch (error) {
-    yield errorHandling(FETCH_HABIT_PREVIEW_DATA_ERROR, error)
+    yield errorHandling(error)
   }
 }
 
@@ -80,10 +75,10 @@ function* createHabit(action) {
         },
       })
     } else {
-      yield errorHandling(CREATE_HABIT_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
     }
   } catch (error) {
-    yield errorHandling(CREATE_HABIT_ERROR, error)
+    yield errorHandling(error)
   }
 }
 
@@ -95,11 +90,11 @@ function* setTodayDone(action) {
     })
     const responseJson = yield call(setTodayDoneApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling(SET_TODAY_DONE_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
     }
     yield fetchHabitPreviewData()
   } catch (error) {
-    yield errorHandling(SET_TODAY_DONE_ERROR, error)
+    yield errorHandling(error)
     yield fetchHabitPreviewData()
   }
 }
@@ -112,11 +107,11 @@ function* setTodayUndone(action) {
     })
     const responseJson = yield call(setTodayUndoneApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling(SET_TODAY_UNDONE_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
     }
     yield fetchHabitPreviewData()
   } catch (error) {
-    yield errorHandling(SET_TODAY_UNDONE_ERROR, error)
+    yield errorHandling(error)
     yield fetchHabitPreviewData()
   }
 }
@@ -129,11 +124,11 @@ function* deleteHabit(action) {
     })
     const responseJson = yield call(deleteHabitApiCall, action.payload)
     if (!responseJson.success) {
-      yield errorHandling(DELETE_HABIT_ERROR, responseJson.error)
+      yield errorHandling(responseJson.error)
       yield fetchHabitPreviewData()
     }
   } catch (error) {
-    yield errorHandling(DELETE_HABIT_ERROR, error)
+    yield errorHandling(error)
     yield fetchHabitPreviewData()
   }
 }
