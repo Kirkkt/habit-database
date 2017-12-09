@@ -19,6 +19,8 @@ const TopBar = ({ history }) => (
         <ChevronLeft />
       </IconButton>
     </Tooltip>
+    <span>
+    </span>
   </TopNavigator>
 )
 

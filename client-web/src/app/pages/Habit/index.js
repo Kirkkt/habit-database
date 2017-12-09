@@ -5,7 +5,7 @@ import { fetchHabitDetailedData } from "actions"
 
 import TopBar from "./TopBar"
 
-const Habit = ({ history, match: { params: { id } } }) => (
+const Habit = ({ history }) => (
   <div>
     <TopBar />
     <div style={{ height: 2000, width: "100%"}}/>
@@ -15,7 +15,7 @@ const Habit = ({ history, match: { params: { id } } }) => (
 export default compose(
   lifecycle({
     componentWillMount() {
-      fetchHabitDetailedData()
+      fetchHabitDetailedData(this.props.match.params.id)
     },
   }),
 )(Habit)

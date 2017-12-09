@@ -1,23 +1,20 @@
+import {
+  FETCH_HABIT_DETAILED_DATA,
+  UPDATE_HABIT,
+} from "actions/actionTypes"
+
 export default (state = {}, { type, payload }) => {
   const newState = { ...state }
   switch (type) {
-    case "FETCH_HABIT_PREVIEW_DATA": {
+    case FETCH_HABIT_DETAILED_DATA: {
       return payload
     }
-    // case "SET_DONE": {
-    //   const { id, timestamp } = payload
-    //   if (newState[id]) {
-    //     newState[id] = newState[id].concat(timestamp)
-    //   } else {
-    //     newState[id] = [ timestamp ]
-    //   }
-    //   return newState
-    // }
-    // case "SET_UNDONE": {
-    //   const { id, timestamp } = payload
-    //   newState[id] = newState[id].filter(t => t !== timestamp)
-    //   return newState
-    // }
+    case UPDATE_HABIT: {
+      return {
+        ...newState,
+        ...payload,
+      }
+    }
     default: {
       return newState
     }
