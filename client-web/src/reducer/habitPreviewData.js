@@ -35,13 +35,17 @@ export default (state = [], { type, payload }) => {
     case SET_TODAY_DONE: {
       const id = payload
       const habit = newState.filter(habit => habit.id === id)[0]
-      habit.doneToday = true
+      if (habit) {
+        habit.doneToday = true
+      }
       return newState
     }
     case SET_TODAY_UNDONE: {
       const id = payload
       const habit = newState.filter(habit => habit.id === id)[0]
-      habit.doneToday = false
+      if (habit) {
+        habit.doneToday = false
+      }
       return newState
     }
     default: {
