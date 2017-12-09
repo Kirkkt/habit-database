@@ -9,6 +9,7 @@ import { shouldEnableQuickDelete } from "common/Config"
 import { StreakTypes } from "common/Constants"
 import { setTodayDone, setTodayUndone } from "actions"
 
+import { ActionWrapper, NameWrapper } from "app/components/styles"
 import DeleteButton from "app/components/DeleteButton"
 
 const StreakText = styled.div`
@@ -39,16 +40,8 @@ const Wrapper = styled.div`
   `}
 `
 
-const NameWrapper = styled.div`
-  width: 100%;
-  padding-top: 15px;
-  padding-bottom: 15px;
+const NameWrapperClickable = styled(NameWrapper)`
   cursor: pointer;
-`
-
-const ActionWrapper = styled.div`
-  width: 40px;
-  margin: auto 10px;
 `
 
 const HabitItem = ({
@@ -69,11 +62,11 @@ const HabitItem = ({
         onChange={toggleDoneToday}
       />
     </ActionWrapper>
-    <NameWrapper
+    <NameWrapperClickable
       onClick={() => history.push(`/habit/${id}`)}
     >
       {name}
-    </NameWrapper>
+    </NameWrapperClickable>
     <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
       <DeleteButton id={id} name={name} />

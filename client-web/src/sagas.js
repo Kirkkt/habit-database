@@ -120,16 +120,16 @@ function* deleteHabit(action) {
   try {
     yield put({
       type: DELETE_HABIT,
-      payload: action.payload,
+      payload: action.payload.id,
     })
-    const responseJson = yield call(deleteHabitApiCall, action.payload)
-    if (!responseJson.success) {
+    const responseJson = yield call(deleteHabitApiCall, action.payload.id)
+    if (responseJson.success) {
+      action.payload.callback && action.payload.callback()
+    } else {
       yield errorHandling(responseJson.error)
-      yield fetchHabitPreviewData()
     }
   } catch (error) {
     yield errorHandling(error)
-    yield fetchHabitPreviewData()
   }
 }
 

@@ -6,7 +6,7 @@ import Tooltip from "material-ui/Tooltip"
 
 import DeleteDialog from "./DeleteDialog"
 
-const DeleteButton = ({ name, id, deleteDialogOpened, toggleDeleteDialogOpened }) => (
+const DeleteButton = ({ name, id, afterDelete, deleteDialogOpened, toggleDeleteDialogOpened }) => (
   <span>
     <Tooltip id="tooltip-icon" title="Delete" placement="left">
       <IconButton aria-label="Delete" onClick={toggleDeleteDialogOpened} tooltip="Delete">
@@ -18,6 +18,7 @@ const DeleteButton = ({ name, id, deleteDialogOpened, toggleDeleteDialogOpened }
       id={id}
       isOpened={deleteDialogOpened}
       onClose={toggleDeleteDialogOpened}
+      afterDelete={afterDelete}
     />
   </span>
 )

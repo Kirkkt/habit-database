@@ -1,5 +1,4 @@
 import React from "react"
-import { connect } from "react-redux"
 import { compose, withHandlers } from "recompose"
 import Button from "material-ui/Button"
 import Dialog, {
@@ -38,15 +37,9 @@ const DeleteDialog = ({isOpened, onDelete, onClose, name, id}) => (
 )
 
 export default compose(
-  connect(
-    null,
-    () => ({
-      deleteHabit,
-    })
-  ),
   withHandlers({
-    onDelete: ({ id, onClose }) => () => {
-      deleteHabit(id)
+    onDelete: ({ id, onClose, afterDelete }) => () => {
+      deleteHabit({ id, callback: afterDelete })
       onClose()
     },
   })

@@ -36,10 +36,10 @@ export const setTodayUndone = id => {
   })
 }
 
-export const deleteHabit = id => {
+export const deleteHabit = payload => {
   store.dispatch({
     type: DELETE_HABIT_SAGA,
-    payload: id,
+    payload,
   })
 }
 
