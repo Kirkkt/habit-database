@@ -1,6 +1,4 @@
 import React from "react"
-import { compose, lifecycle, withProps } from "recompose"
-import { connect } from "react-redux"
 
 import { daysBefore } from "common/Utils"
 
@@ -24,5 +22,4 @@ const LongestStreakSection = ({ timestamps }) => (
   </h3>
 )
 
-export default compose(
-)(LongestStreakSection)
+export default LongestStreakSection
