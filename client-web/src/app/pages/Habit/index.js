@@ -1,14 +1,24 @@
 import React from "react"
 import { compose, lifecycle, withProps } from "recompose"
+import { connect } from "react-redux"
+import styled from "styled-components"
 
 import { fetchHabitDetailedData } from "actions"
 
 import TopBar from "./TopBar"
+import LongestStreakSection from "./LongestStreakSection"
 
-const Habit = ({ history, id }) => (
+const SectionsWrapper = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
+`
+
+const Habit = ({ history, id, name, timestamps }) => (
   <div>
-    <TopBar id={id} />
-    <div style={{ height: 2000, width: "100%"}}/>
+    <TopBar id={id} name={name} />
+    <SectionsWrapper>
+      <LongestStreakSection id={id} timestamps={timestamps} />
+    </SectionsWrapper>
   </div>
 )
 
@@ -21,6 +31,14 @@ export default compose(
     },
   }) => ({
     id: +id,
+  })),
+  connect(({ habitDetailedData }) => ({ habitDetailedData })),
+  withProps(({
+    habitDetailedData,
+    id,
+  }) => ({
+    timestamps: (habitDetailedData[id] || {}).timestamps || [],
+    name: (habitDetailedData[id] || {}).name || "",
   })),
   lifecycle({
     componentWillMount() {
