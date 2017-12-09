@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 
-import { fetchHabitDetailedData } from "actions"
 import { daysAgo } from "common/Utils"
 import TodayDoneCheckbox from "app/components/TodayDoneCheckbox"
 
