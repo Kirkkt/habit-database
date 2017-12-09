@@ -1,18 +1,15 @@
 import React from "react"
-import { compose, withState, withHandlers, mapProps } from "recompose"
+import { compose, withHandlers } from "recompose"
 import { connect } from "react-redux"
 import styled, { css } from "styled-components"
 import Checkbox from "material-ui/Checkbox"
-import IconButton from "material-ui/IconButton"
-import DeleteIcon from "material-ui-icons/Delete"
-import Tooltip from "material-ui/Tooltip"
 import { withRouter } from "react-router-dom"
 
 import { shouldEnableQuickDelete } from "common/Config"
 import { StreakTypes } from "common/Constants"
 import { setTodayDone, setTodayUndone } from "actions"
 
-import DeleteDialog from "./DeleteDialog"
+import DeleteButton from "app/components/DeleteButton"
 
 const StreakText = styled.div`
   display: inline;
@@ -63,8 +60,6 @@ const HabitItem = ({
   },
   history,
   isOddItem,
-  deleteDialogOpened,
-  toggleDeleteDialogOpened,
   toggleDoneToday,
 }) => (
   <Wrapper isOddItem={isOddItem}>
@@ -81,27 +76,12 @@ const HabitItem = ({
     </NameWrapper>
     <Streak streak={streak} />
     { shouldEnableQuickDelete() && <ActionWrapper>
-      <Tooltip id="tooltip-icon" title="Delete" placement="left">
-        <IconButton aria-label="Delete" onClick={toggleDeleteDialogOpened} tooltip="Delete">
-          <DeleteIcon />
-        </IconButton>
-      </Tooltip>
+      <DeleteButton id={id} name={name} />
     </ActionWrapper> }
-    <DeleteDialog
-      name={name}
-      id={id}
-      isOpened={deleteDialogOpened}
-      onClose={toggleDeleteDialogOpened}
-    />
   </Wrapper>
 )
 export default compose(
   withRouter,
-  withState("deleteDialogOpened", "setDeleteDialogOpened", false),
-  mapProps(({ setDeleteDialogOpened, ...rest }) => ({
-    toggleDeleteDialogOpened: () => setDeleteDialogOpened(value => !value),
-    ...rest,
-  })),
   withHandlers({
     toggleDoneToday: ({
       habit: {
