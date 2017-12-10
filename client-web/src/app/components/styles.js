@@ -11,3 +11,10 @@ export const NameWrapper = styled.div`
   padding-bottom: 15px;
 `
 
+export const HitText = styled.span`
+  color: #3fbf3f;
+`
+
+export const MissText = styled.span`
+  color: #b52615;
+`

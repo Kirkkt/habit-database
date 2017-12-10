@@ -1,8 +1,9 @@
 import React from "react"
 
 import { daysBefore } from "common/Utils"
+import { HitText } from "app/components/styles"
 
-const getLongestStreak = timestamps => {
+const getLongestHitStreak = timestamps => {
   let result = timestamps && timestamps.length > 0 ? 1 : 0
   let currentStreak = 0
   for (let i = 0; i < timestamps.length - 1; i++) {
@@ -16,10 +17,10 @@ const getLongestStreak = timestamps => {
   return Math.max(result, currentStreak)
 }
 
-const LongestStreakSection = ({ timestamps }) => (
+const LongestHitStreakSection = ({ timestamps }) => (
   <h3>
-    Longest streak: {getLongestStreak(timestamps)}
+    Longest <HitText>HIT</HitText> streak: {getLongestHitStreak(timestamps)}
   </h3>
 )
 
-export default LongestStreakSection
+export default LongestHitStreakSection

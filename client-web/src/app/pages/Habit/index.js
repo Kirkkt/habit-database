@@ -6,7 +6,8 @@ import styled from "styled-components"
 import { fetchHabitDetailedData } from "actions"
 
 import CalendarSection from "./CalendarSection"
-import LongestStreakSection from "./LongestStreakSection"
+import LongestHitStreakSection from "./LongestHitStreakSection"
+import LongestMissStreakSection from "./LongestMissStreakSection"
 import TodayDoneSection from "./TodayDoneSection"
 import TopBar from "./TopBar"
 
@@ -20,7 +21,8 @@ const Habit = ({ history, id, name, timestamps }) => (
     <TopBar id={id} name={name} />
     <SectionsWrapper>
       <TodayDoneSection id={id} timestamps={timestamps} />
-      <LongestStreakSection timestamps={timestamps} />
+      <LongestHitStreakSection timestamps={timestamps} />
+      <LongestMissStreakSection timestamps={timestamps} />
       <CalendarSection timestamps={timestamps} />
     </SectionsWrapper>
   </div>
