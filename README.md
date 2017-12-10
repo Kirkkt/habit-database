@@ -19,12 +19,8 @@ So I made my own.
     - Front-end
     |
     +---- React.js
-    +---- create-react-app
+    +---- material-ui
     +---- redux
-    +---- redux-saga
-    +---- recompose
-    +---- react-router-dom
-    +---- styled-components
 
 # How to run?
 - `cd server/; yarn`
