@@ -4,7 +4,10 @@ import { daysBefore } from "common/Utils"
 import { HitText } from "app/components/styles"
 
 const getLongestHitStreak = timestamps => {
-  let result = timestamps && timestamps.length > 0 ? 1 : 0
+  if (!timestamps || timestamps.length === 0) {
+    return "N/A"
+  }
+  let result = 1
   let currentStreak = 1
   for (let i = 0; i < timestamps.length - 1; i++) {
     if (daysBefore(timestamps[i], timestamps[i + 1]) === 1) {

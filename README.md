@@ -38,4 +38,6 @@ So I made my own.
 - open up `localhost:3000` in your browser
 
 # Screenshot
-![](./screenshot.png)
+![](./screenshot-home.png)
+
+![](./screenshot-detail.png)
