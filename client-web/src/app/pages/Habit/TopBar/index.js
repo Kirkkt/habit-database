@@ -12,13 +12,14 @@ import EditableName from "./EditableName"
 
 const TopNavigator = styled.div`
   background: #f3f3f3;
-  position: fixed;
+  box-sizing: border-box;
   display: flex;
-  width: 100%;
-  top: 0;
   padding-left: 10px;
   padding-right: 10px;
-  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 `
 
 const PlaceHolder = styled.div`

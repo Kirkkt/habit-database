@@ -9,7 +9,7 @@ const getLongestMissStreak = timestamps => {
   }
   let result = 0
   for (let i = 0; i < timestamps.length - 1; i++) {
-    result = Math.max(result, daysBefore(timestamps[i], timestamps[i + 1]))
+    result = Math.max(result, daysBefore(timestamps[i], timestamps[i + 1]) - 1)
   }
   return Math.max(result, daysAgo(timestamps[timestamps.length - 1]))
 }
